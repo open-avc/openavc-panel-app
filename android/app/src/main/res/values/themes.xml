@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.OpenAVCPanel" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/brand_sage</item>
+        <item name="colorPrimaryVariant">@color/brand_sage_dark</item>
+        <item name="colorOnPrimary">@color/on_surface_dark</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+</resources>

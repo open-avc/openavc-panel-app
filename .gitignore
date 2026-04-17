@@ -1,0 +1,44 @@
+# Android (Gradle + Android Studio)
+android/.gradle/
+android/build/
+android/app/build/
+android/captures/
+android/local.properties
+android/.idea/
+android/*.iml
+android/app/*.iml
+android/app/release/
+android/app/debug/
+android/.cxx/
+android/app/.cxx/
+android/keystore.properties
+android/*.jks
+android/*.keystore
+
+# iOS / Xcode
+ios/build/
+ios/DerivedData/
+ios/*.xcworkspace/xcuserdata/
+ios/**/*.xcuserstate
+ios/**/xcuserdata/
+ios/*.pbxuser
+ios/*.mode1v3
+ios/*.mode2v3
+ios/*.perspectivev3
+ios/Pods/
+ios/Podfile.lock
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+*.swp
+*.swo
+*~
+
+# Local env
+.env
+.env.local

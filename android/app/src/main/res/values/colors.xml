@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_sage">#8AB493</color>
+    <color name="brand_sage_dark">#5E8F6B</color>
+    <color name="surface_dark">#0E1411</color>
+    <color name="surface_light">#F5F7F5</color>
+    <color name="on_surface_light">#0E1411</color>
+    <color name="on_surface_dark">#F5F7F5</color>
+</resources>

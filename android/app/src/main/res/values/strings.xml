@@ -1,0 +1,86 @@
+<resources>
+    <string name="app_name">OpenAVC Panel</string>
+
+    <!-- Panel host activity -->
+    <string name="change_server">Change server</string>
+    <string name="error_server_unreachable">Can\'t reach the system</string>
+    <string name="error_detail_format">%1$s couldn\'t respond.\nIt may be offline or on a different network.</string>
+    <string name="retry">Try again</string>
+    <string name="exit_dialog_title">Close OpenAVC Panel?</string>
+    <string name="exit_dialog_message">You can also switch to a different OpenAVC system.</string>
+    <string name="exit_dialog_close">Close app</string>
+    <string name="exit_dialog_stay">Keep using this one</string>
+
+    <!-- Discovery -->
+    <string name="discovery_title">Find your OpenAVC</string>
+    <string name="discovery_subtitle">Pick a system from the list, scan the QR from the Programmer, or enter an address directly.</string>
+    <string name="discovery_section_network">Systems on your network</string>
+    <string name="discovery_empty">Searching the network…</string>
+    <string name="discovery_scan_qr">Scan QR code</string>
+    <string name="discovery_enter_manually">Enter manually</string>
+    <string name="discovery_validating">Connecting…</string>
+    <string name="discovery_unreachable">Couldn\'t reach that address.</string>
+    <string name="discovery_invalid_url">That doesn\'t look like an OpenAVC URL.</string>
+
+    <!-- QR scanner -->
+    <string name="qr_instructions">Point the camera at the QR code in the Programmer dashboard</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Manual entry -->
+    <string name="manual_dialog_title">Enter server address</string>
+    <string name="manual_host_hint">Host or IP</string>
+    <string name="manual_port_hint">Port</string>
+    <string name="manual_connect">Connect</string>
+    <string name="default_port">8080</string>
+
+    <!-- Shared -->
+    <string name="save">Save</string>
+    <string name="back">Back</string>
+
+    <!-- Admin sheet -->
+    <string name="admin_sheet_title">Admin</string>
+    <string name="admin_sheet_subtitle">Only the installer should see this.</string>
+    <string name="admin_change_server">Change server</string>
+    <string name="admin_kiosk_settings">Kiosk settings</string>
+    <string name="admin_close">Close</string>
+    <string name="admin_unlock_title">Enter admin PIN</string>
+    <string name="admin_unlock_submit">Unlock</string>
+
+    <!-- Kiosk setup -->
+    <string name="kiosk_title">Kiosk mode</string>
+    <string name="kiosk_state_soft">Soft kiosk</string>
+    <string name="kiosk_state_soft_detail">The panel runs full screen and blocks accidental back taps. A determined user can still swipe to the home screen. To lock the device completely, provision this app as the device owner.</string>
+    <string name="kiosk_state_true_ready">True kiosk ready</string>
+    <string name="kiosk_state_true_ready_detail">This tablet is provisioned as the device owner. Flip the switch below to lock the tablet to the panel.</string>
+    <string name="kiosk_state_true_active">Kiosk running</string>
+    <string name="kiosk_state_true_active_detail">The panel is locked to the foreground. Home, recents, and the notification shade are all disabled. Use the triple-tap gesture + PIN to exit.</string>
+
+    <string name="kiosk_toggle_title">Run as kiosk</string>
+    <string name="kiosk_toggle_detail">Lock the tablet to the panel. Takes effect the next time you leave this screen.</string>
+    <string name="kiosk_toggle_requires_pin">Set an admin PIN first.</string>
+    <string name="kiosk_toggle_on_hint">Kiosk will engage when you return to the panel.</string>
+    <string name="kiosk_toggle_off_hint">Kiosk will release when you return to the panel.</string>
+
+    <string name="kiosk_pin_title">Admin PIN</string>
+    <string name="kiosk_pin_set_detail">A 4+ digit PIN protects access to this screen and kiosk exit.</string>
+    <string name="kiosk_pin_unset_detail">No PIN set. Required before enabling kiosk mode.</string>
+    <string name="kiosk_pin_set">Set PIN</string>
+    <string name="kiosk_pin_change">Change PIN</string>
+    <string name="kiosk_pin_set_title">Set admin PIN</string>
+    <string name="kiosk_pin_change_title">Change admin PIN</string>
+    <string name="kiosk_pin_current_hint">Current PIN</string>
+    <string name="kiosk_pin_new_hint">New PIN (min 4 digits)</string>
+    <string name="kiosk_pin_confirm_hint">Confirm new PIN</string>
+    <string name="kiosk_pin_enter_hint">PIN</string>
+    <string name="kiosk_pin_wrong">PIN doesn\'t match.</string>
+    <string name="kiosk_pin_too_short">Use at least 4 digits.</string>
+    <string name="kiosk_pin_mismatch">New PIN and confirmation don\'t match.</string>
+    <string name="kiosk_pin_saved">PIN saved.</string>
+
+    <string name="kiosk_provisioning_title">Provisioning (one-time)</string>
+    <string name="kiosk_provisioning_detail">To lock the tablet completely, run this from a computer with the tablet connected over USB and Developer Options + USB debugging enabled. The tablet must have no Google account signed in.</string>
+    <string name="kiosk_copy">Copy</string>
+    <string name="kiosk_copied">Copied.</string>
+    <string name="kiosk_docs_link">Open full guide on docs.openavc.com</string>
+    <string name="kiosk_docs_failed">Couldn\'t open a browser on this device.</string>
+</resources>
