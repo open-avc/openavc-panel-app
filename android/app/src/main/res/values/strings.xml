@@ -41,29 +41,29 @@
     <string name="admin_sheet_title">Admin</string>
     <string name="admin_sheet_subtitle">Only the installer should see this.</string>
     <string name="admin_change_server">Change server</string>
-    <string name="admin_kiosk_settings">Kiosk settings</string>
+    <string name="admin_kiosk_settings">Panel settings</string>
     <string name="admin_close">Close</string>
     <string name="admin_unlock_title">Enter admin PIN</string>
     <string name="admin_unlock_submit">Unlock</string>
 
-    <!-- Kiosk setup -->
-    <string name="kiosk_title">Kiosk mode</string>
-    <string name="kiosk_state_soft">Soft kiosk</string>
-    <string name="kiosk_state_soft_detail">The panel runs full screen and blocks accidental back taps. A determined user can still swipe to the home screen. To lock the device completely, provision this app as the device owner.</string>
-    <string name="kiosk_state_true_ready">True kiosk ready</string>
+    <!-- Panel settings (dedicated-panel mode) -->
+    <string name="kiosk_title">Dedicated panel</string>
+    <string name="kiosk_state_soft">Basic mode</string>
+    <string name="kiosk_state_soft_detail">The panel runs full screen and blocks accidental back taps. A determined user can still swipe to the home screen. To lock the tablet completely, provision this app as the device owner (Android\'s name for a full dedicated-panel setup).</string>
+    <string name="kiosk_state_true_ready">Ready to lock</string>
     <string name="kiosk_state_true_ready_detail">This tablet is provisioned as the device owner. Flip the switch below to lock the tablet to the panel.</string>
-    <string name="kiosk_state_true_active">Kiosk running</string>
-    <string name="kiosk_state_true_active_detail">The panel is locked to the foreground. Home, recents, and the notification shade are all disabled. Use the triple-tap gesture + PIN to exit.</string>
+    <string name="kiosk_state_true_active">Locked</string>
+    <string name="kiosk_state_true_active_detail">The panel is locked to the foreground. Home, recents, and the notification shade are all disabled. Use the triple-tap gesture plus PIN to exit.</string>
 
-    <string name="kiosk_toggle_title">Run as kiosk</string>
-    <string name="kiosk_toggle_detail">Lock the tablet to the panel. Takes effect the next time you leave this screen.</string>
+    <string name="kiosk_toggle_title">Lock the panel</string>
+    <string name="kiosk_toggle_detail">Keep the tablet locked to this panel. Takes effect the next time you leave this screen.</string>
     <string name="kiosk_toggle_requires_pin">Set an admin PIN first.</string>
-    <string name="kiosk_toggle_on_hint">Kiosk will engage when you return to the panel.</string>
-    <string name="kiosk_toggle_off_hint">Kiosk will release when you return to the panel.</string>
+    <string name="kiosk_toggle_on_hint">Lock engages when you return to the panel.</string>
+    <string name="kiosk_toggle_off_hint">Lock releases when you return to the panel.</string>
 
     <string name="kiosk_pin_title">Admin PIN</string>
-    <string name="kiosk_pin_set_detail">A 4+ digit PIN protects access to this screen and kiosk exit.</string>
-    <string name="kiosk_pin_unset_detail">No PIN set. Required before enabling kiosk mode.</string>
+    <string name="kiosk_pin_set_detail">A 4+ digit PIN protects access to this screen and unlocks the panel.</string>
+    <string name="kiosk_pin_unset_detail">No PIN set. Required before locking the panel.</string>
     <string name="kiosk_pin_set">Set PIN</string>
     <string name="kiosk_pin_change">Change PIN</string>
     <string name="kiosk_pin_set_title">Set admin PIN</string>
@@ -81,6 +81,6 @@
     <string name="kiosk_provisioning_detail">To lock the tablet completely, run this from a computer with the tablet connected over USB and Developer Options + USB debugging enabled. The tablet must have no Google account signed in.</string>
     <string name="kiosk_copy">Copy</string>
     <string name="kiosk_copied">Copied.</string>
-    <string name="kiosk_docs_link">Open full guide on docs.openavc.com</string>
+    <string name="kiosk_docs_link">Open full setup guide on docs.openavc.com</string>
     <string name="kiosk_docs_failed">Couldn\'t open a browser on this device.</string>
 </resources>

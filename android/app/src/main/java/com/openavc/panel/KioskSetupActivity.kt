@@ -166,6 +166,6 @@ class KioskSetupActivity : AppCompatActivity() {
     companion object {
         private const val MIN_PIN_LENGTH = 4
         private const val DOCS_URL =
-            "https://docs.openavc.com/panel-app-kiosk-android"
+            "https://docs.openavc.com/panel-app-dedicated-android"
     }
 }

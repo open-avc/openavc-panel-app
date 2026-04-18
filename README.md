@@ -10,7 +10,7 @@ OpenAVC's web panel is already touch-optimized and runs great in any mobile brow
 
 - **Auto-discovery.** Find the OpenAVC server on the network automatically via mDNS. No typing IP addresses.
 - **QR pairing.** Scan the QR code shown in the Programmer IDE to connect instantly.
-- **Kiosk mode.** Lock the tablet to the panel. Users cannot exit to the home screen, open other apps, or pull down the notification shade.
+- **Dedicated panel mode.** Lock the tablet to the panel. Users cannot exit to the home screen, open other apps, or pull down the notification shade. (Android's developer docs call this "Lock Task Mode" or "kiosk mode"; we use the AV term.)
 - **Boot to panel.** The panel launches automatically when the tablet powers on.
 - **Keep screen on.** The display stays awake. No tapping through a lock screen to adjust the volume.
 
@@ -39,8 +39,8 @@ The marketing page at [openavc.com/panel-app](https://openavc.com/panel-app) has
 Everything a user needs lives on the docs site:
 
 - [Panel App overview](https://docs.openavc.com/panel-app/) - install, pairing, when to use the app vs. a browser
-- [Android kiosk setup](https://docs.openavc.com/panel-app-kiosk-android/) - soft kiosk, true kiosk via ADB, Android Enterprise QR provisioning
-- [iOS kiosk setup](https://docs.openavc.com/panel-app-kiosk-ios/) - Guided Access, Autonomous Single App Mode via MDM
+- [Android dedicated panel setup](https://docs.openavc.com/panel-app-dedicated-android/) - basic and full dedicated-panel modes, ADB and Android Enterprise QR provisioning
+- [iOS dedicated panel setup](https://docs.openavc.com/panel-app-dedicated-ios/) - Guided Access, Autonomous Single App Mode via MDM
 
 ## Repository Layout
 
