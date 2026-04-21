@@ -4,7 +4,9 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +49,11 @@ class KioskSetupActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val toolbarHeight = (56 * resources.displayMetrics.density).toInt()
+            binding.root.systemGestureExclusionRects =
+                listOf(Rect(0, 0, toolbarHeight, toolbarHeight))
+        }
         render()
     }
 

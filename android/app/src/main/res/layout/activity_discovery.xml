@@ -71,6 +71,17 @@
         app:layout_constraintStart_toStartOf="@id/server_list"
         app:layout_constraintEnd_toEndOf="@id/server_list" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/wifi_settings_button"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/wifi_settings"
+        app:layout_constraintBottom_toTopOf="@id/button_row"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <LinearLayout
         android:id="@+id/button_row"
         android:layout_width="0dp"

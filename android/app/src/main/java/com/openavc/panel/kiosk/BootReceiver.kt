@@ -3,6 +3,7 @@ package com.openavc.panel.kiosk
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.UserManager
 import android.util.Log
 import com.openavc.panel.MainActivity
 import com.openavc.panel.prefs.AppPreferences
@@ -30,6 +31,11 @@ class BootReceiver : BroadcastReceiver() {
     }
 
     private fun launchPanel(context: Context) {
+        val userManager = context.getSystemService(Context.USER_SERVICE) as UserManager
+        if (!userManager.isUserUnlocked) {
+            Log.d(TAG, "user not yet unlocked; waiting for BOOT_COMPLETED")
+            return
+        }
         val prefs = AppPreferences(context)
         if (prefs.getLastServer() == null) {
             Log.d(TAG, "no saved server; skipping boot launch")

@@ -3,6 +3,7 @@ package com.openavc.panel
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -145,6 +146,7 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton(R.string.admin_unlock_submit, null)
             .setNegativeButton(R.string.cancel, null)
             .create()
+        dialog.setOnDismissListener { setupFullscreen() }
         dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val pin = dialogBinding.unlockPinInput.text?.toString().orEmpty()
@@ -161,6 +163,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showAdminSheet() {
         val sheet = BottomSheetDialog(this)
+        sheet.setOnDismissListener { setupFullscreen() }
         val sheetBinding = SheetAdminBinding.inflate(LayoutInflater.from(this))
         sheetBinding.changeServer.setOnClickListener {
             sheet.dismiss()
@@ -249,13 +252,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showExitConfirmation() {
-        AlertDialog.Builder(this)
+        val dialog = AlertDialog.Builder(this)
             .setTitle(R.string.exit_dialog_title)
             .setMessage(R.string.exit_dialog_message)
             .setPositiveButton(R.string.exit_dialog_stay, null)
             .setNegativeButton(R.string.change_server) { _, _ -> launchDiscovery() }
             .setNeutralButton(R.string.exit_dialog_close) { _, _ -> finish() }
-            .show()
+            .create()
+        dialog.setOnDismissListener { setupFullscreen() }
+        dialog.show()
     }
 
     private fun setupFullscreen() {
@@ -263,7 +268,11 @@ class MainActivity : AppCompatActivity() {
         val controller = WindowInsetsControllerCompat(window, window.decorView)
         controller.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        controller.hide(WindowInsetsCompat.Type.systemBars())
+        controller.hide(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.captionBar())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.decorView.systemGestureExclusionRects =
+                listOf(Rect(0, 0, cornerHotspotPx, cornerHotspotPx))
+        }
     }
 
     private fun applyKioskState() {
@@ -273,8 +282,7 @@ class MainActivity : AppCompatActivity() {
             shouldLock && !inLock -> kiosk.startLockTask(this)
             !shouldLock && inLock -> kiosk.stopLockTask(this)
         }
-        // When kiosk is active, back should be a no-op; admins use the
-        // corner-tap → PIN → bottom sheet escape path instead.
+        if (shouldLock) kiosk.suppressOemWindowControls()
         backCallback.isEnabled = !shouldLock
     }
 

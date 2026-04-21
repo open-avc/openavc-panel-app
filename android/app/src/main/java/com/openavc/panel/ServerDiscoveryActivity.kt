@@ -2,6 +2,7 @@ package com.openavc.panel
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -47,6 +48,9 @@ class ServerDiscoveryActivity : AppCompatActivity() {
 
         binding.scanQrButton.setOnClickListener { qrLauncher.launch(Unit) }
         binding.manualEntryButton.setOnClickListener { showManualEntryDialog() }
+        binding.wifiSettingsButton.setOnClickListener {
+            startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+        }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -145,4 +149,5 @@ class ServerDiscoveryActivity : AppCompatActivity() {
         binding.manualEntryButton.isEnabled = !connecting
         binding.serverList.isEnabled = !connecting
     }
+
 }

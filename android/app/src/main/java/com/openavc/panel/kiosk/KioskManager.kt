@@ -5,6 +5,7 @@ import android.app.ActivityManager
 import android.app.admin.DevicePolicyManager
 import android.content.Context
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
 
 /**
@@ -62,17 +63,36 @@ class KioskManager(context: Context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 dpm.setLockTaskFeatures(
                     component,
-                    DevicePolicyManager.LOCK_TASK_FEATURE_KEYGUARD
+                    DevicePolicyManager.LOCK_TASK_FEATURE_NONE
                 )
             }
+            dpm.setStatusBarDisabled(component, true)
+            suppressOemWindowControls()
             activity.startLockTask()
         } catch (e: SecurityException) {
             Log.w(TAG, "startLockTask denied", e)
         }
     }
 
+    fun suppressOemWindowControls() {
+        try {
+            Settings.Secure.putString(
+                appContext.contentResolver, "show_ov_top_bar", "0"
+            )
+            Settings.Global.putString(
+                appContext.contentResolver, "enable_freeform_support", "0"
+            )
+        } catch (e: SecurityException) {
+            Log.w(TAG, "Cannot write windowing settings (WRITE_SECURE_SETTINGS not granted)", e)
+        }
+    }
+
     fun stopLockTask(activity: Activity) {
         try {
+            if (isDeviceOwner()) {
+                val component = AdminReceiver.componentName(appContext)
+                dpm.setStatusBarDisabled(component, false)
+            }
             if (inLockTaskMode()) activity.stopLockTask()
         } catch (e: IllegalStateException) {
             Log.w(TAG, "stopLockTask failed", e)
