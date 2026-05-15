@@ -12,8 +12,8 @@ android {
         applicationId = "com.openavc.panel"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.1.0-rc3"
+        versionCode = 4
+        versionName = "0.1.0-rc4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
