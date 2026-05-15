@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Rect
+import android.net.http.SslCertificate
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import android.webkit.SslErrorHandler
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
@@ -25,6 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.openavc.panel.databinding.ActivityMainBinding
 import com.openavc.panel.databinding.DialogUnlockPinBinding
 import com.openavc.panel.databinding.SheetAdminBinding
+import com.openavc.panel.discovery.CertTrustStore
 import com.openavc.panel.discovery.ServerInfo
 import com.openavc.panel.discovery.ServerValidator
 import com.openavc.panel.kiosk.KioskManager
@@ -33,6 +36,10 @@ import com.openavc.panel.prefs.AppPreferences
 import com.openavc.panel.util.applyImmersive
 import com.openavc.panel.util.showImmersive
 import kotlinx.coroutines.launch
+import java.io.ByteArrayInputStream
+import java.security.MessageDigest
+import java.security.cert.CertificateFactory
+import java.security.cert.X509Certificate
 
 /**
  * Panel host. Displays the OpenAVC web panel inside a full-screen WebView and
@@ -75,6 +82,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.retryButton.setOnClickListener { reload() }
         binding.changeServerFromError.setOnClickListener { launchDiscovery() }
+        binding.repairButton.setOnClickListener { handleRepair() }
 
         backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -172,6 +180,10 @@ class MainActivity : AppCompatActivity() {
             sheet.dismiss()
             startActivity(Intent(this, KioskSetupActivity::class.java))
         }
+        sheetBinding.viewFingerprint.setOnClickListener {
+            sheet.dismiss()
+            showFingerprintDialog()
+        }
         sheetBinding.closeApp.setOnClickListener {
             sheet.dismiss()
             closeApp()
@@ -230,7 +242,98 @@ class MainActivity : AppCompatActivity() {
                 if (!request.isForMainFrame) return
                 showError("HTTP ${errorResponse.statusCode}")
             }
+
+            override fun onReceivedSslError(
+                view: WebView,
+                handler: SslErrorHandler,
+                error: android.net.http.SslError,
+            ) {
+                val active = server
+                if (active == null) {
+                    handler.cancel()
+                    return
+                }
+                val pinned = CertTrustStore(this@MainActivity).lookup(
+                    active.instanceId,
+                    CertTrustStore.hostPortKey(active.host, active.port),
+                )
+                val leaf = sslCertificateToX509(error.certificate)
+                if (pinned != null && leaf != null && certificateMatchesPin(leaf, pinned)) {
+                    handler.proceed()
+                    return
+                }
+                handler.cancel()
+                showCertChangedOverlay()
+            }
         }
+    }
+
+    private fun handleRepair() {
+        val active = server ?: return launchDiscovery()
+        CertTrustStore(this).clear(
+            active.instanceId,
+            CertTrustStore.hostPortKey(active.host, active.port),
+        )
+        launchDiscovery()
+    }
+
+    private fun showCertChangedOverlay() {
+        binding.errorTitle.setText(R.string.cert_changed_title)
+        binding.errorDetail.text = getString(R.string.cert_changed_detail)
+        binding.errorOverlay.visibility = View.VISIBLE
+        binding.repairButton.visibility = View.VISIBLE
+        binding.retryButton.visibility = View.GONE
+    }
+
+    private fun showFingerprintDialog() {
+        val active = server
+        val pem = active?.let {
+            CertTrustStore(this).lookupPem(
+                it.instanceId,
+                CertTrustStore.hostPortKey(it.host, it.port),
+            )
+        }
+        val pinned = pem?.let { runCatching { CertTrustStore.parsePem(it) }.getOrNull() }
+        val message = if (pinned == null) {
+            getString(R.string.admin_fingerprint_none)
+        } else {
+            val fp = sha256Fingerprint(pinned)
+            getString(R.string.admin_fingerprint_hint) + "\n\nSHA-256:\n$fp"
+        }
+        AlertDialog.Builder(this)
+            .setTitle(R.string.admin_fingerprint_title)
+            .setMessage(message)
+            .setPositiveButton(R.string.admin_fingerprint_dismiss, null)
+            .create()
+            .also { it.setOnDismissListener { setupFullscreen() } }
+            .showImmersive()
+    }
+
+    private fun sslCertificateToX509(cert: SslCertificate?): X509Certificate? {
+        if (cert == null) return null
+        val bundle = SslCertificate.saveState(cert) ?: return null
+        val bytes = bundle.getByteArray("x509-certificate") ?: return null
+        return runCatching {
+            CertificateFactory.getInstance("X.509")
+                .generateCertificate(ByteArrayInputStream(bytes)) as X509Certificate
+        }.getOrNull()
+    }
+
+    /**
+     * Two-stage trust check matching Phase 14's design note. Auto-generate mode
+     * pins the CA (the leaf's public key is signed by it), Provided mode pins
+     * the leaf directly. Try byte-equal first (handles Provided + the rare case
+     * where the WebView gives us the CA), fall back to signature verification
+     * against the pinned public key (Auto-generate's normal path).
+     */
+    private fun certificateMatchesPin(leaf: X509Certificate, pinned: X509Certificate): Boolean {
+        if (leaf.encoded.contentEquals(pinned.encoded)) return true
+        return runCatching { leaf.verify(pinned.publicKey); true }.getOrDefault(false)
+    }
+
+    private fun sha256Fingerprint(cert: X509Certificate): String {
+        val digest = MessageDigest.getInstance("SHA-256").digest(cert.encoded)
+        return digest.joinToString(":") { "%02X".format(it) }
     }
 
     private fun reload() {
@@ -238,7 +341,13 @@ class MainActivity : AppCompatActivity() {
         hideError()
         lifecycleScope.launch {
             val active = server ?: return@launch
-            val reachable = ServerValidator.ping(active.host, active.port, active.scheme)
+            val reachable = ServerValidator.ping(
+                this@MainActivity,
+                active.host,
+                active.port,
+                active.scheme,
+                active.instanceId,
+            )
             if (reachable) {
                 binding.webView.loadUrl(url)
             } else {
@@ -249,15 +358,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun showError(detail: String?) {
         val active = server
+        binding.errorTitle.setText(R.string.error_server_unreachable)
         binding.errorDetail.text = getString(
             R.string.error_detail_format,
             active?.name ?: "The system"
         ) + (detail?.let { "\n\n$it" } ?: "")
         binding.errorOverlay.visibility = View.VISIBLE
+        binding.retryButton.visibility = View.VISIBLE
+        binding.repairButton.visibility = View.GONE
     }
 
     private fun hideError() {
         binding.errorOverlay.visibility = View.GONE
+        binding.repairButton.visibility = View.GONE
+        binding.retryButton.visibility = View.VISIBLE
     }
 
     private fun showExitConfirmation() {

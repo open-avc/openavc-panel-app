@@ -144,7 +144,15 @@ class ServerDiscoveryActivity : AppCompatActivity() {
     private fun connect(host: String, port: Int, fallbackName: String, scheme: String = "http") {
         setConnecting(true)
         lifecycleScope.launch {
-            val validated = ServerValidator.validate(host, port, scheme)
+            // Quality of life: when the user types a known-HTTPS port without
+            // ticking the HTTPS checkbox, try TLS first so the dialog doesn't
+            // demand the right combination of inputs to reach a TLS server.
+            val httpsProbe = if (scheme == "http" && port in HTTPS_GUESS_PORTS) {
+                ServerValidator.validate(this@ServerDiscoveryActivity, host, port, "https")
+            } else null
+            val validated = httpsProbe ?: ServerValidator.validate(
+                this@ServerDiscoveryActivity, host, port, scheme,
+            )
             setConnecting(false)
             if (validated == null) {
                 Toast.makeText(
@@ -173,4 +181,7 @@ class ServerDiscoveryActivity : AppCompatActivity() {
         binding.serverList.isEnabled = !connecting
     }
 
+    companion object {
+        private val HTTPS_GUESS_PORTS = setOf(8443, 443, 4443, 9443)
+    }
 }

@@ -37,6 +37,15 @@
         android:text="@string/admin_kiosk_settings" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/view_fingerprint"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:minHeight="56dp"
+        android:text="@string/admin_view_fingerprint" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/close_app"
         style="@style/Widget.Material3.Button.TonalButton"
         android:layout_width="match_parent"
