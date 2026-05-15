@@ -31,11 +31,11 @@ DENSITIES = {
 
 # Fraction of the adaptive 108dp canvas the logo occupies. The "safe zone"
 # (always visible regardless of mask shape) is the inner 72/108 = 0.667 of
-# the canvas. Going slightly above that — the corners + edges of the source
-# logo are pure white, which matches the background drawable, so visual
-# clipping of those areas is invisible. 0.82 keeps "Open" inside the
-# circular safe zone while leaving the logo readable.
-FOREGROUND_SCALE = 0.82
+# the canvas. The source logo runs edge-to-edge with no natural margin —
+# "Open" and "AVC" both touch the bounding box — so we have to actually
+# scale the whole logo to fit inside the safe zone. 0.66 leaves a couple
+# pixels of buffer so circular launcher masks don't graze the content.
+FOREGROUND_SCALE = 0.66
 
 
 def load_logo() -> Image.Image:
