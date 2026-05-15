@@ -2,6 +2,14 @@
 
 Native Android and iOS apps that turn a commodity tablet into a dedicated AV touch panel for an [OpenAVC](https://github.com/open-avc/openavc) system.
 
+<p align="center">
+  <a href="https://raw.githubusercontent.com/open-avc/openavc-panel-app/main/docs/images/panel-tablet-conference-room.jpg">
+    <img src="https://raw.githubusercontent.com/open-avc/openavc-panel-app/main/docs/images/panel-tablet-conference-room.jpg" alt="OpenAVC touch panel running on an Android tablet, controlling a conference room" width="70%">
+  </a>
+</p>
+
+<p align="center"><sub><i>The OpenAVC touch panel rendered by the Android app on a wall-mounted tablet. Click to enlarge.</i></sub></p>
+
 > **Status:** Android in active development. First signed APK is on the [Releases](https://github.com/open-avc/openavc-panel-app/releases) page. Google Play listing is in progress. iOS build not yet started; App Store listing coming after.
 
 ## What These Apps Do
