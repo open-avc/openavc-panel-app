@@ -21,7 +21,7 @@ data class ServerInfo(
     companion object {
         fun fromPanelUrl(url: String, name: String? = null): ServerInfo? {
             val trimmed = url.trim().trimEnd('/')
-            val regex = Regex("^(https?)://([^:/]+)(?::(\\d+))?(/.*)?$")
+            val regex = Regex("^(https?)://([^:/]+)(?::(\\d+))?(/.*)?$", RegexOption.IGNORE_CASE)
             val match = regex.matchEntire(trimmed) ?: return null
             val scheme = match.groupValues[1].lowercase()
             val host = match.groupValues[2]
