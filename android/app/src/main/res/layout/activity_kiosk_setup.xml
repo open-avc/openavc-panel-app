@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorSurface"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         app:navigationIcon="@drawable/ic_arrow_back"
         app:navigationContentDescription="@string/back"
         app:title="@string/kiosk_title"

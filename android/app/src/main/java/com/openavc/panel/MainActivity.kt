@@ -20,9 +20,6 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.openavc.panel.databinding.ActivityMainBinding
@@ -33,6 +30,8 @@ import com.openavc.panel.discovery.ServerValidator
 import com.openavc.panel.kiosk.KioskManager
 import com.openavc.panel.kiosk.KioskPreferences
 import com.openavc.panel.prefs.AppPreferences
+import com.openavc.panel.util.applyImmersive
+import com.openavc.panel.util.showImmersive
 import kotlinx.coroutines.launch
 
 /**
@@ -158,7 +157,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        dialog.show()
+        dialog.showImmersive()
     }
 
     private fun showAdminSheet() {
@@ -173,9 +172,19 @@ class MainActivity : AppCompatActivity() {
             sheet.dismiss()
             startActivity(Intent(this, KioskSetupActivity::class.java))
         }
+        sheetBinding.closeApp.setOnClickListener {
+            sheet.dismiss()
+            closeApp()
+        }
         sheetBinding.closeSheet.setOnClickListener { sheet.dismiss() }
         sheet.setContentView(sheetBinding.root)
-        sheet.show()
+        sheet.showImmersive()
+    }
+
+    /** Hard exit out of the panel. Stops lock-task first when applicable. */
+    private fun closeApp() {
+        if (kiosk.inLockTaskMode()) kiosk.stopLockTask(this)
+        finish()
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -257,18 +266,14 @@ class MainActivity : AppCompatActivity() {
             .setMessage(R.string.exit_dialog_message)
             .setPositiveButton(R.string.exit_dialog_stay, null)
             .setNegativeButton(R.string.change_server) { _, _ -> launchDiscovery() }
-            .setNeutralButton(R.string.exit_dialog_close) { _, _ -> finish() }
+            .setNeutralButton(R.string.exit_dialog_close) { _, _ -> closeApp() }
             .create()
         dialog.setOnDismissListener { setupFullscreen() }
-        dialog.show()
+        dialog.showImmersive()
     }
 
     private fun setupFullscreen() {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        val controller = WindowInsetsControllerCompat(window, window.decorView)
-        controller.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        controller.hide(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.captionBar())
+        applyImmersive()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             window.decorView.systemGestureExclusionRects =
                 listOf(Rect(0, 0, cornerHotspotPx, cornerHotspotPx))

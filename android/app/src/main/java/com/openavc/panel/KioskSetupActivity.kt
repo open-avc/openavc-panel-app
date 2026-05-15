@@ -17,6 +17,8 @@ import com.openavc.panel.databinding.ActivityKioskSetupBinding
 import com.openavc.panel.databinding.DialogPinEntryBinding
 import com.openavc.panel.kiosk.KioskManager
 import com.openavc.panel.kiosk.KioskPreferences
+import com.openavc.panel.util.applyImmersive
+import com.openavc.panel.util.showImmersive
 
 /**
  * Admin-only screen reached from the in-panel admin sheet. Shows current
@@ -33,6 +35,8 @@ class KioskSetupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityKioskSetupBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applyImmersive()
+        applyToolbarGestureExclusion()
 
         kiosk = KioskManager(this)
         prefs = KioskPreferences(this)
@@ -49,12 +53,26 @@ class KioskSetupActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val toolbarHeight = (56 * resources.displayMetrics.density).toInt()
-            binding.root.systemGestureExclusionRects =
-                listOf(Rect(0, 0, toolbarHeight, toolbarHeight))
-        }
+        applyImmersive()
+        applyToolbarGestureExclusion()
         render()
+    }
+
+    /**
+     * Carve out the toolbar's leading edge from Android's system-gesture region
+     * so the left-edge back-swipe doesn't eat taps aimed at the toolbar's back
+     * arrow. The rect is generous (96dp wide x 72dp tall) because OEM gesture
+     * navs (Lenovo Tab M10 in particular) are sloppy about respecting the
+     * exclusion — a tight rect gets clipped and the back arrow becomes near-
+     * untouchable. Pair with toolbar `paddingStart` so the icon is also
+     * physically away from the screen edge.
+     */
+    private fun applyToolbarGestureExclusion() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return
+        val widthPx = (96 * resources.displayMetrics.density).toInt()
+        val heightPx = (72 * resources.displayMetrics.density).toInt()
+        binding.root.systemGestureExclusionRects =
+            listOf(Rect(0, 0, widthPx, heightPx))
     }
 
     private fun render() {
@@ -115,7 +133,7 @@ class KioskSetupActivity : AppCompatActivity() {
             dialogBinding.currentPinLayout.visibility = View.VISIBLE
         }
         dialogBinding.newPinInput.requestFocus()
-        AlertDialog.Builder(this)
+        val dialog = AlertDialog.Builder(this)
             .setTitle(
                 if (changing) R.string.kiosk_pin_change_title else R.string.kiosk_pin_set_title
             )
@@ -127,7 +145,9 @@ class KioskSetupActivity : AppCompatActivity() {
                 handlePinSave(changing, current, proposed, confirm)
             }
             .setNegativeButton(R.string.cancel, null)
-            .show()
+            .create()
+        dialog.setOnDismissListener { applyImmersive() }
+        dialog.showImmersive()
     }
 
     private fun handlePinSave(

@@ -39,11 +39,11 @@
 
     <!-- Admin sheet -->
     <string name="admin_sheet_title">Admin</string>
-    <string name="admin_sheet_subtitle">Only the installer should see this.</string>
     <string name="admin_change_server">Change server</string>
     <string name="wifi_settings">Wi-Fi settings</string>
     <string name="admin_kiosk_settings">Panel settings</string>
-    <string name="admin_close">Close</string>
+    <string name="admin_close_app">Close app</string>
+    <string name="admin_close">Close menu</string>
     <string name="admin_unlock_title">Enter admin PIN</string>
     <string name="admin_unlock_submit">Unlock</string>
 

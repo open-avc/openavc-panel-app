@@ -21,6 +21,8 @@ import com.openavc.panel.discovery.ServerInfo
 import com.openavc.panel.discovery.ServerListAdapter
 import com.openavc.panel.discovery.ServerValidator
 import com.openavc.panel.prefs.AppPreferences
+import com.openavc.panel.util.applyImmersive
+import com.openavc.panel.util.showImmersive
 import kotlinx.coroutines.launch
 
 class ServerDiscoveryActivity : AppCompatActivity() {
@@ -38,6 +40,7 @@ class ServerDiscoveryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDiscoveryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applyImmersive()
 
         prefs = AppPreferences(this)
         mdns = MDNSDiscovery(this)
@@ -66,6 +69,11 @@ class ServerDiscoveryActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         mdns.start()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        applyImmersive()
     }
 
     override fun onStop() {
@@ -115,7 +123,8 @@ class ServerDiscoveryActivity : AppCompatActivity() {
                 connect(host, port, fallbackName = host)
             }
         }
-        dialog.show()
+        dialog.setOnDismissListener { applyImmersive() }
+        dialog.showImmersive()
     }
 
     private fun connect(host: String, port: Int, fallbackName: String) {

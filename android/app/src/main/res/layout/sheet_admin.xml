@@ -18,16 +18,6 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/admin_sheet_subtitle"
-        android:textSize="14sp"
-        android:textColor="?attr/colorOnSurfaceVariant"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:layout_marginTop="4dp" />
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/change_server"
         style="@style/Widget.Material3.Button"
@@ -45,6 +35,15 @@
         android:layout_marginTop="12dp"
         android:minHeight="56dp"
         android:text="@string/admin_kiosk_settings" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/close_app"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:minHeight="56dp"
+        android:text="@string/admin_close_app" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/close_sheet"
