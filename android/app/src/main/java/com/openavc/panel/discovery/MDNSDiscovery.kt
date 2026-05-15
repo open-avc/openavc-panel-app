@@ -114,13 +114,16 @@ class MDNSDiscovery(context: Context) {
         val instanceId = attrs["id"].orEmpty()
         val version = attrs["version"].orEmpty()
         val path = attrs["path"].ifNullOrEmpty("/panel")
+        // Servers without TLS omit the scheme TXT key — default to plain HTTP.
+        val scheme = attrs["scheme"].orEmpty().ifEmpty { "http" }.lowercase()
         return ServerInfo(
             name = name,
             instanceId = instanceId,
             host = address,
             port = port,
             version = version,
-            panelUrl = "http://$address:$port$path",
+            panelUrl = "$scheme://$address:$port$path",
+            scheme = scheme,
         )
     }
 

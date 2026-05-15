@@ -18,6 +18,7 @@ class AppPreferences(context: Context) {
             putInt(KEY_PORT, server.port)
             putString(KEY_VERSION, server.version)
             putString(KEY_PANEL_URL, server.panelUrl)
+            putString(KEY_SCHEME, server.scheme)
         }
     }
 
@@ -25,14 +26,16 @@ class AppPreferences(context: Context) {
         val host = prefs.getString(KEY_HOST, null) ?: return null
         val port = prefs.getInt(KEY_PORT, 0)
         if (port == 0) return null
+        val scheme = prefs.getString(KEY_SCHEME, "http") ?: "http"
         return ServerInfo(
             name = prefs.getString(KEY_NAME, host) ?: host,
             instanceId = prefs.getString(KEY_INSTANCE_ID, "") ?: "",
             host = host,
             port = port,
             version = prefs.getString(KEY_VERSION, "") ?: "",
-            panelUrl = prefs.getString(KEY_PANEL_URL, "http://$host:$port/panel")
-                ?: "http://$host:$port/panel",
+            panelUrl = prefs.getString(KEY_PANEL_URL, "$scheme://$host:$port/panel")
+                ?: "$scheme://$host:$port/panel",
+            scheme = scheme,
         )
     }
 
@@ -48,5 +51,6 @@ class AppPreferences(context: Context) {
         private const val KEY_PORT = "server_port"
         private const val KEY_VERSION = "server_version"
         private const val KEY_PANEL_URL = "server_panel_url"
+        private const val KEY_SCHEME = "server_scheme"
     }
 }
