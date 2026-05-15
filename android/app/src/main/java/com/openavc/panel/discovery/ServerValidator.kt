@@ -18,9 +18,12 @@ object ServerValidator {
     private const val CONNECT_TIMEOUT_MS = 3_000
     private const val READ_TIMEOUT_MS = 3_000
 
-    suspend fun validate(host: String, port: Int): ServerInfo? =
+    internal fun buildUrl(host: String, port: Int, scheme: String, path: String): URL =
+        URL("$scheme://$host:$port$path")
+
+    suspend fun validate(host: String, port: Int, scheme: String = "http"): ServerInfo? =
         withContext(Dispatchers.IO) {
-            val statusUrl = URL("http://$host:$port/api/status")
+            val statusUrl = buildUrl(host, port, scheme, "/api/status")
             val conn = statusUrl.openConnection() as? HttpURLConnection ?: return@withContext null
             try {
                 conn.connectTimeout = CONNECT_TIMEOUT_MS
@@ -45,7 +48,8 @@ object ServerValidator {
                     host = host,
                     port = port,
                     version = version,
-                    panelUrl = "http://$host:$port/panel",
+                    panelUrl = "$scheme://$host:$port/panel",
+                    scheme = scheme,
                 )
             } catch (e: Exception) {
                 Log.d(TAG, "validate failed for $host:$port: ${e.message}")
@@ -55,9 +59,9 @@ object ServerValidator {
             }
         }
 
-    suspend fun ping(host: String, port: Int): Boolean =
+    suspend fun ping(host: String, port: Int, scheme: String = "http"): Boolean =
         withContext(Dispatchers.IO) {
-            val url = URL("http://$host:$port/api/health")
+            val url = buildUrl(host, port, scheme, "/api/health")
             val conn = url.openConnection() as? HttpURLConnection ?: return@withContext false
             try {
                 conn.connectTimeout = CONNECT_TIMEOUT_MS

@@ -31,7 +31,9 @@
     <string name="manual_host_hint">Host or IP</string>
     <string name="manual_port_hint">Port</string>
     <string name="manual_connect">Connect</string>
+    <string name="manual_use_https">Use HTTPS</string>
     <string name="default_port">8080</string>
+    <string name="default_port_https">8443</string>
 
     <!-- Shared -->
     <string name="save">Save</string>

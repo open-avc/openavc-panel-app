@@ -238,7 +238,7 @@ class MainActivity : AppCompatActivity() {
         hideError()
         lifecycleScope.launch {
             val active = server ?: return@launch
-            val reachable = ServerValidator.ping(active.host, active.port)
+            val reachable = ServerValidator.ping(active.host, active.port, active.scheme)
             if (reachable) {
                 binding.webView.loadUrl(url)
             } else {

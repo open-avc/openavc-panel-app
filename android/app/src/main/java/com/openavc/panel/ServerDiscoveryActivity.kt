@@ -82,7 +82,7 @@ class ServerDiscoveryActivity : AppCompatActivity() {
     }
 
     private fun onServerSelected(server: ServerInfo) {
-        connect(server.host, server.port, fallbackName = server.name)
+        connect(server.host, server.port, fallbackName = server.name, scheme = server.scheme)
     }
 
     private fun handleScannedUrl(url: String) {
@@ -91,12 +91,25 @@ class ServerDiscoveryActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.discovery_invalid_url, Toast.LENGTH_LONG).show()
             return
         }
-        connect(parsed.host, parsed.port, fallbackName = parsed.name)
+        connect(parsed.host, parsed.port, fallbackName = parsed.name, scheme = parsed.scheme)
     }
 
     private fun showManualEntryDialog() {
         val dialogBinding = DialogManualEntryBinding.inflate(LayoutInflater.from(this))
         dialogBinding.hostInput.requestFocus()
+        // Mirror the OpenAVC default ports as the user toggles HTTPS, but only
+        // when the field is still showing the previous default (don't clobber
+        // a port the user typed themselves).
+        val defaultHttpPort = getString(R.string.default_port)
+        val defaultHttpsPort = getString(R.string.default_port_https)
+        dialogBinding.httpsSwitch.setOnCheckedChangeListener { _, isChecked ->
+            val current = dialogBinding.portInput.text?.toString().orEmpty()
+            if (isChecked && current == defaultHttpPort) {
+                dialogBinding.portInput.setText(defaultHttpsPort)
+            } else if (!isChecked && current == defaultHttpsPort) {
+                dialogBinding.portInput.setText(defaultHttpPort)
+            }
+        }
         val dialog = AlertDialog.Builder(this)
             .setTitle(R.string.manual_dialog_title)
             .setView(dialogBinding.root)
@@ -119,18 +132,19 @@ class ServerDiscoveryActivity : AppCompatActivity() {
                     Toast.makeText(this, R.string.manual_port_hint, Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
+                val scheme = if (dialogBinding.httpsSwitch.isChecked) "https" else "http"
                 dialog.dismiss()
-                connect(host, port, fallbackName = host)
+                connect(host, port, fallbackName = host, scheme = scheme)
             }
         }
         dialog.setOnDismissListener { applyImmersive() }
         dialog.showImmersive()
     }
 
-    private fun connect(host: String, port: Int, fallbackName: String) {
+    private fun connect(host: String, port: Int, fallbackName: String, scheme: String = "http") {
         setConnecting(true)
         lifecycleScope.launch {
-            val validated = ServerValidator.validate(host, port)
+            val validated = ServerValidator.validate(host, port, scheme)
             setConnecting(false)
             if (validated == null) {
                 Toast.makeText(
