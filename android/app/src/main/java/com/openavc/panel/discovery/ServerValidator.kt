@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.HttpURLConnection
+import java.net.MalformedURLException
 import java.net.URL
 import java.security.SecureRandom
 import javax.net.ssl.HostnameVerifier
@@ -23,6 +24,12 @@ import javax.net.ssl.X509TrustManager
  * /api/status response under a [PinnedTrustManager]. After the server
  * returns its instance_id we re-pin under that key so the trust survives
  * IP changes across DHCP rotations.
+ *
+ * A plain-http probe of a TLS-enabled server is answered by the server's
+ * HTTP-to-HTTPS redirect listener. That 3xx is treated as a TLS handoff:
+ * validation retries over https against the same host on the redirected
+ * port (see [tlsHandoffPort]), so scanning a printed http:// pair QR still
+ * lands on a server that has since enabled HTTPS.
  */
 object ServerValidator {
 
@@ -32,6 +39,38 @@ object ServerValidator {
 
     internal fun buildUrl(host: String, port: Int, scheme: String, path: String): URL =
         URL("$scheme://$host:$port$path")
+
+    /**
+     * Decides whether a failed plain-http probe was answered by the server's
+     * HTTP-to-HTTPS redirect listener. [HttpURLConnection] follows same-scheme
+     * redirects on its own but refuses to cross http-to-https, so a 3xx that
+     * surfaces here with an https Location means the server is alive on this
+     * host and wants the conversation on its TLS port.
+     *
+     * Returns the https port to re-validate against, or null when the
+     * response is not a TLS handoff. Only the Location's scheme and port are
+     * honored; the caller keeps the host it just probed. The probed host is
+     * the address that answered, and its bare-IP handshake serves the
+     * self-signed chain that /api/certificate pinning can match — whereas a
+     * server with a cloud-issued certificate puts its public DNS name in the
+     * Location, which may not resolve without internet and presents a
+     * CA-signed chain that a pinned certificate never matches.
+     */
+    internal fun tlsHandoffPort(code: Int, location: String?): Int? {
+        if (code !in 300..399 || location.isNullOrBlank()) return null
+        val target = try {
+            URL(location.trim())
+        } catch (e: MalformedURLException) {
+            // Relative or unparseable Location — not a cross-scheme handoff.
+            return null
+        }
+        // URL() is lenient ("https://" parses with an empty host) — a
+        // hostless Location is garbage, not a handoff.
+        if (!target.protocol.equals("https", ignoreCase = true) || target.host.isNullOrEmpty()) {
+            return null
+        }
+        return if (target.port != -1) target.port else 443
+    }
 
     suspend fun validate(
         context: Context,
@@ -56,6 +95,13 @@ object ServerValidator {
             conn.setRequestProperty("Accept", "application/json")
             val code = conn.responseCode
             if (code !in 200..299) {
+                val handoffPort = if (scheme == "http") {
+                    tlsHandoffPort(code, conn.getHeaderField("Location"))
+                } else null
+                if (handoffPort != null) {
+                    Log.d(TAG, "TLS handoff from $statusUrl to https port $handoffPort")
+                    return@withContext validate(context, host, handoffPort, "https")
+                }
                 Log.d(TAG, "status $code from $statusUrl")
                 return@withContext null
             }
