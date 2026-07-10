@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build:
-    name: Build signed APK
+    name: Build signed APK + AAB
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,7 +36,7 @@ jobs:
           echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > release.jks
           echo "ANDROID_KEYSTORE_PATH=$GITHUB_WORKSPACE/android/release.jks" >> "$GITHUB_ENV"
 
-      - name: Build release APK
+      - name: Build release APK and AAB
         working-directory: android
         env:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
@@ -44,26 +44,53 @@ jobs:
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
         run: |
           chmod +x ./gradlew
-          ./gradlew --no-daemon --console=plain assembleRelease
+          ./gradlew --no-daemon --console=plain assembleRelease bundleRelease
 
       - name: Compute SHA-256
         id: sha
         working-directory: android
         run: |
           apk="app/build/outputs/apk/release/app-release.apk"
-          sha=$(sha256sum "$apk" | awk '{print $1}')
-          echo "sha256=$sha" >> "$GITHUB_OUTPUT"
+          aab="app/build/outputs/bundle/release/app-release.aab"
+          apk_sha=$(sha256sum "$apk" | awk '{print $1}')
+          aab_sha=$(sha256sum "$aab" | awk '{print $1}')
+          echo "sha256=$apk_sha" >> "$GITHUB_OUTPUT"
           echo "apk=$apk" >> "$GITHUB_OUTPUT"
+          echo "aab=$aab" >> "$GITHUB_OUTPUT"
+          echo "aab_sha256=$aab_sha" >> "$GITHUB_OUTPUT"
 
-      - name: Rename APK with version
+      - name: Rename artifacts with version
         id: rename
         working-directory: android
         run: |
           version="${GITHUB_REF_NAME#v}"
-          dest="OpenAVCPanel-$version.apk"
-          cp "${{ steps.sha.outputs.apk }}" "$dest"
-          echo "dest=$dest" >> "$GITHUB_OUTPUT"
+          apk_dest="OpenAVCPanel-$version.apk"
+          aab_dest="OpenAVCPanel-$version.aab"
+          cp "${{ steps.sha.outputs.apk }}" "$apk_dest"
+          cp "${{ steps.sha.outputs.aab }}" "$aab_dest"
+          echo "dest=$apk_dest" >> "$GITHUB_OUTPUT"
+          echo "aab_dest=$aab_dest" >> "$GITHUB_OUTPUT"
           echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Upload AAB for Play submission
+        uses: actions/upload-artifact@v4
+        with:
+          name: play-bundle-${{ steps.rename.outputs.version }}
+          path: android/${{ steps.rename.outputs.aab_dest }}
+          if-no-files-found: error
+
+      - name: Record Play upload artifact in job summary
+        run: |
+          {
+            echo "### Google Play upload artifact"
+            echo ""
+            echo "The signed Android App Bundle for this release is attached to this run as artifact **play-bundle-${{ steps.rename.outputs.version }}**."
+            echo ""
+            echo "- File: \`${{ steps.rename.outputs.aab_dest }}\`"
+            echo "- SHA-256: \`${{ steps.sha.outputs.aab_sha256 }}\`"
+            echo ""
+            echo "Download it from the Artifacts section of this run and upload it to the Play Console production track. The signed APK is published on the GitHub Release for sideload and enterprise provisioning."
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
