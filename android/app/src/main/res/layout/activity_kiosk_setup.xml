@@ -150,7 +150,43 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Provisioning instructions -->
+        <!--
+          Already provisioned. Replaces the whole provisioning block below,
+          because showing setup steps for something already done reads as "did
+          it not work?" - and the command would now refuse to run anyway.
+        -->
+        <LinearLayout
+            android:id="@+id/provisioned_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/kiosk_provisioned_title"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/kiosk_provisioned_detail"
+                android:textSize="14sp"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+
+        </LinearLayout>
+
+        <!-- Provisioning instructions, hidden once the tablet is provisioned -->
+
+        <LinearLayout
+            android:id="@+id/provisioning_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -161,12 +197,38 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/provisioning_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/kiosk_provisioning_detail"
             android:textSize="14sp"
             android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <!-- Only for a Play install: what to actually do instead. -->
+        <LinearLayout
+            android:id="@+id/play_next_steps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/kiosk_provisioning_play_next_title"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/kiosk_provisioning_play_next"
+                android:textSize="14sp"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+
+        </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -203,6 +265,9 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        </LinearLayout>
+
+        <!-- Always visible: useful on every route, provisioned or not. -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/docs_button"
             style="@style/Widget.Material3.Button.OutlinedButton"

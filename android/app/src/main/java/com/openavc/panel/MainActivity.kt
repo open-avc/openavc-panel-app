@@ -147,7 +147,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun promptForPin(onSuccess: () -> Unit) {
         val dialogBinding = DialogUnlockPinBinding.inflate(LayoutInflater.from(this))
-        dialogBinding.unlockPinInput.requestFocus()
         val dialog = AlertDialog.Builder(this)
             .setTitle(R.string.admin_unlock_title)
             .setView(dialogBinding.root)
@@ -166,7 +165,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        dialog.showImmersive()
+        // Raise the keyboard. This dialog is the only way back out of a locked
+        // panel, and a focused-but-dead-looking PIN box is the worst possible
+        // thing to meet at that moment.
+        dialog.showImmersive(dialogBinding.unlockPinInput)
     }
 
     private fun showAdminSheet() {

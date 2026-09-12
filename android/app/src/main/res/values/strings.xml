@@ -91,7 +91,24 @@
     <string name="kiosk_pin_saved">PIN saved.</string>
 
     <string name="kiosk_provisioning_title">Provisioning (one-time)</string>
-    <string name="kiosk_provisioning_detail">To lock the tablet completely, run this from a computer with the tablet connected over USB and Developer Options + USB debugging enabled. The tablet must have no Google account signed in.</string>
+    <!--
+      Three variants of the same explanation, chosen by InstallSource. What
+      blocks provisioning is an account on the tablet, not where the app came
+      from, but a Play install proves an account was there - so that case gets
+      told plainly instead of being left to work it out.
+    -->
+    <string name="kiosk_provisioning_detail_sideloaded">To lock the tablet completely, run this from a computer with the tablet connected over USB and Developer Options + USB debugging enabled. The tablet must have no Google account signed in — sign out of every account first, or factory reset and skip sign-in.</string>
+    <string name="kiosk_provisioning_detail_play">This copy came from Google Play, so this tablet has a Google account signed in. Android will not lock a tablet to one app while any account exists, so the command below will refuse to run as things stand.</string>
+    <string name="kiosk_provisioning_detail_unknown">To lock the tablet completely, run this from a computer with the tablet connected over USB and Developer Options + USB debugging enabled. The tablet must have no Google account signed in. If this tablet was set up with a Google account, factory reset it and skip sign-in first.</string>
+
+    <string name="kiosk_provisioning_play_next_title">To lock this tablet</string>
+    <string name="kiosk_provisioning_play_next">Factory reset the tablet and skip the Google sign-in, then either install the app from the signed APK on openavc.com and run the command below, or use QR provisioning, which installs and locks in one step with no computer. The full setup guide covers both.</string>
+
+    <string name="kiosk_provisioned_title">Provisioning complete</string>
+    <string name="kiosk_provisioned_detail">This tablet is already set up as the device owner, so there is nothing left to run here. Use the switch above to lock and unlock the panel.</string>
+
+    <string name="kiosk_state_true_armed">Locked</string>
+    <string name="kiosk_state_true_armed_detail">The panel locks to the foreground as soon as you leave this screen. Home, recents, and the notification shade are disabled. Triple-tap the top-left corner and enter the admin PIN to get back here.</string>
     <string name="kiosk_copy">Copy</string>
     <string name="kiosk_copied">Copied.</string>
     <string name="kiosk_docs_link">Open full setup guide on docs.openavc.com</string>

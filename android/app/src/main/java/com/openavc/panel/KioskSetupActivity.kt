@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.openavc.panel.databinding.ActivityKioskSetupBinding
 import com.openavc.panel.databinding.DialogPinEntryBinding
+import com.openavc.panel.kiosk.InstallSource
 import com.openavc.panel.kiosk.KioskManager
 import com.openavc.panel.kiosk.KioskPreferences
 import com.openavc.panel.util.applyImmersive
@@ -77,22 +78,37 @@ class KioskSetupActivity : AppCompatActivity() {
 
     private fun render() {
         val capability = kiosk.capability()
-        val (stateTitle, stateDetail) = when (capability) {
-            KioskManager.Capability.SOFT -> {
+        val provisioned = capability != KioskManager.Capability.SOFT
+        val armed = prefs.kioskEnabled
+
+        // The heading has to follow the switch, not just the provisioning
+        // state. Lock Task only actually starts when MainActivity resumes, so
+        // capability() still reads AVAILABLE while we are standing on this
+        // screen with the switch on -- which used to leave the heading saying
+        // "Ready to lock. Flip the switch below" immediately after you had
+        // flipped it.
+        val (stateTitle, stateDetail) = when {
+            !provisioned -> {
                 getString(R.string.kiosk_state_soft) to
                     getString(R.string.kiosk_state_soft_detail)
             }
-            KioskManager.Capability.TRUE_KIOSK_AVAILABLE -> {
-                getString(R.string.kiosk_state_true_ready) to
-                    getString(R.string.kiosk_state_true_ready_detail)
-            }
-            KioskManager.Capability.TRUE_KIOSK_ACTIVE -> {
+            capability == KioskManager.Capability.TRUE_KIOSK_ACTIVE -> {
                 getString(R.string.kiosk_state_true_active) to
                     getString(R.string.kiosk_state_true_active_detail)
+            }
+            armed -> {
+                getString(R.string.kiosk_state_true_armed) to
+                    getString(R.string.kiosk_state_true_armed_detail)
+            }
+            else -> {
+                getString(R.string.kiosk_state_true_ready) to
+                    getString(R.string.kiosk_state_true_ready_detail)
             }
         }
         binding.stateText.text = stateTitle
         binding.stateDetail.text = stateDetail
+
+        renderProvisioning(provisioned)
 
         val toggleOn = prefs.kioskEnabled
         // Suspend the listener while we restore state so we don't trigger
@@ -112,6 +128,35 @@ class KioskSetupActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Show provisioning steps only when there is provisioning left to do, and
+     * word them for the route this copy of the app is actually on.
+     *
+     * Once the tablet is the device owner the ADB command is not merely
+     * redundant, it would refuse to run -- leaving it on screen under a heading
+     * that says the tablet is already provisioned invites the reader to think
+     * something went wrong.
+     */
+    private fun renderProvisioning(provisioned: Boolean) {
+        binding.provisionedSection.visibility = if (provisioned) View.VISIBLE else View.GONE
+        binding.provisioningSection.visibility = if (provisioned) View.GONE else View.VISIBLE
+        if (provisioned) return
+
+        val source = InstallSource.detect(this)
+        binding.provisioningDetail.text = getString(
+            when (source) {
+                InstallSource.PLAY_STORE -> R.string.kiosk_provisioning_detail_play
+                InstallSource.SIDELOADED -> R.string.kiosk_provisioning_detail_sideloaded
+                InstallSource.UNKNOWN -> R.string.kiosk_provisioning_detail_unknown
+            }
+        )
+        // Only a Play install gets the "here is what to do instead" block: it
+        // is the one case where we know the command in front of them cannot
+        // work on this tablet as it stands.
+        binding.playNextSteps.visibility =
+            if (source == InstallSource.PLAY_STORE) View.VISIBLE else View.GONE
+    }
+
     private fun onKioskToggle(isChecked: Boolean) {
         if (isChecked && !prefs.hasPin()) {
             Toast.makeText(this, R.string.kiosk_toggle_requires_pin, Toast.LENGTH_LONG).show()
@@ -124,6 +169,12 @@ class KioskSetupActivity : AppCompatActivity() {
         // change to take effect.
         val messageRes = if (isChecked) R.string.kiosk_toggle_on_hint else R.string.kiosk_toggle_off_hint
         Toast.makeText(this, messageRes, Toast.LENGTH_SHORT).show()
+        // Re-render so the heading follows the switch. render() only ran from
+        // onResume before, so flipping the switch left the state text stale --
+        // it still read "Ready to lock. Flip the switch below" with the switch
+        // already on. render() suspends the switch listener while it restores
+        // state, so calling it from the listener does not recurse.
+        render()
     }
 
     private fun showPinDialog() {
@@ -147,7 +198,11 @@ class KioskSetupActivity : AppCompatActivity() {
             .setNegativeButton(R.string.cancel, null)
             .create()
         dialog.setOnDismissListener { applyImmersive() }
-        dialog.showImmersive()
+        // Focus the field the admin is going to type in: the current PIN when
+        // changing one, otherwise the new PIN.
+        dialog.showImmersive(
+            if (changing) dialogBinding.currentPinInput else dialogBinding.newPinInput
+        )
     }
 
     private fun handlePinSave(
