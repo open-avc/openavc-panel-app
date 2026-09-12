@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.openavc.panel"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.openavc.panel"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 7
         versionName = "0.1.0-rc7"
 
