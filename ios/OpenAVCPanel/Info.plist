@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>OpenAVC Panel</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>LaunchBackground</string>
+	</dict>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+	</dict>
+
+	<!-- A wall-mounted panel is landscape; a handheld one is whatever the
+	     installer mounts it as. Both orientations, no upside-down on iPhone. -->
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+
+	<!-- The panel is the whole screen and the room is often dark. -->
+	<key>UIStatusBarHidden</key>
+	<true/>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>UIRequiresFullScreen</key>
+	<true/>
+
+	<key>NSCameraUsageDescription</key>
+	<string>OpenAVC Panel uses the camera to scan the pairing code shown in the OpenAVC Programmer, so this device can find your control system.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>OpenAVC Panel looks for OpenAVC control systems on your local network so you can connect to the one in this room.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_openavc._tcp</string>
+	</array>
+
+	<!--
+	  App Transport Security.
+
+	  An OpenAVC server is a computer on the installer's own LAN, reached at a
+	  private address such as 192.168.1.50. No public certificate authority will
+	  ever issue a certificate for an address like that, so the two exceptions
+	  below are not a relaxation of policy - they are the only way an app can
+	  talk to hardware on the network it is sitting on.
+
+	  NSAllowsLocalNetworking covers the app's own requests (the /api/status
+	  probe and the health check) to local names and private addresses. It does
+	  NOT open up the public internet: anything outside the local network still
+	  gets the full ATS treatment.
+
+	  NSAllowsArbitraryLoadsInWebContent covers the WKWebView that renders the
+	  panel, which is what the user actually touches. It is scoped to web
+	  content only, so it cannot weaken the app's own connections.
+
+	  Where the server does have TLS enabled, the app does better than ATS
+	  would: it pins the server's certificate on first pairing and refuses
+	  anything else (see PinnedTrust.swift). That is a stronger guarantee on a
+	  private network than trusting the public CA set.
+	-->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+		<key>NSAllowsArbitraryLoadsInWebContent</key>
+		<true/>
+	</dict>
+</dict>
+</plist>

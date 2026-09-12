@@ -1,0 +1,443 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8769DE9EEAA4E3E16DE8FA44 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BEF0FE89DCFCF666021D0D8 /* ContentView.swift */; };
+		A558F6862D5077C662CAB885 /* OpenAVCPanelApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252790DE78770E4099932D5C /* OpenAVCPanelApp.swift */; };
+		8EB579CFD32EAE1E038D9872 /* BonjourDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725C52E6D8191299859D73FB /* BonjourDiscovery.swift */; };
+		BDC6ECF3DD1B0A96815B8661 /* CertFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EAB84C6E5850AA6D740226 /* CertFetcher.swift */; };
+		F4B6F59EF9EEE4C6BB13E55C /* CertTrustStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B94D7EA607F1BC1ADC67F4 /* CertTrustStore.swift */; };
+		D481264A21A494651FA1F973 /* ManualEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6995C64680637DE6B26DBC4 /* ManualEntryView.swift */; };
+		2B1B4F526FDF4DB8131F8404 /* PinnedTrust.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBAE0765A476FF08948CC25 /* PinnedTrust.swift */; };
+		307CD2DAEDAE51B6E481647C /* QRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C51B92DC50CB4043D82D1B /* QRScannerView.swift */; };
+		CE6B232A4DAFF247D3231F20 /* ServerDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CB554615C01349808BF50E /* ServerDiscoveryView.swift */; };
+		08F08B059D06D8BDBAABF060 /* ServerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA99E0F7D55B5704A7049D5 /* ServerInfo.swift */; };
+		079DD2F86AA48346DC532F7D /* ServerValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DD1FDCD26FB53A4B703DF6 /* ServerValidator.swift */; };
+		E9296F482A40A9422FD6BDE1 /* GuidedAccessHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E48D222E38A3023D212DCCD /* GuidedAccessHelper.swift */; };
+		6F717A108E9ECA9B0E98C940 /* PanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78FAAE787A0A86A698DE077 /* PanelView.swift */; };
+		1B6E90FEC4F5B0D99C65BF0E /* ServerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493148B3699E43ED4D54D5DF /* ServerStore.swift */; };
+		FC8474AD685987EF0849211A /* ServerInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F4D8DA1F0D0BB76916CCE6 /* ServerInfoTests.swift */; };
+		255CAC0F727FC72A88ABC441 /* ServerValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA4369D2676DF5BB6327F8F /* ServerValidatorTests.swift */; };
+		82CC4A34AB6F8533D473165D /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = E2F2BBD496753C2033EF5F55 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7BEF0FE89DCFCF666021D0D8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		252790DE78770E4099932D5C /* OpenAVCPanelApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAVCPanelApp.swift; sourceTree = "<group>"; };
+		725C52E6D8191299859D73FB /* BonjourDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonjourDiscovery.swift; sourceTree = "<group>"; };
+		89EAB84C6E5850AA6D740226 /* CertFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertFetcher.swift; sourceTree = "<group>"; };
+		C5B94D7EA607F1BC1ADC67F4 /* CertTrustStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertTrustStore.swift; sourceTree = "<group>"; };
+		E6995C64680637DE6B26DBC4 /* ManualEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualEntryView.swift; sourceTree = "<group>"; };
+		EFBAE0765A476FF08948CC25 /* PinnedTrust.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedTrust.swift; sourceTree = "<group>"; };
+		35C51B92DC50CB4043D82D1B /* QRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerView.swift; sourceTree = "<group>"; };
+		76CB554615C01349808BF50E /* ServerDiscoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDiscoveryView.swift; sourceTree = "<group>"; };
+		CFA99E0F7D55B5704A7049D5 /* ServerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerInfo.swift; sourceTree = "<group>"; };
+		39DD1FDCD26FB53A4B703DF6 /* ServerValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerValidator.swift; sourceTree = "<group>"; };
+		2E48D222E38A3023D212DCCD /* GuidedAccessHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidedAccessHelper.swift; sourceTree = "<group>"; };
+		D78FAAE787A0A86A698DE077 /* PanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelView.swift; sourceTree = "<group>"; };
+		493148B3699E43ED4D54D5DF /* ServerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStore.swift; sourceTree = "<group>"; };
+		B2F4D8DA1F0D0BB76916CCE6 /* ServerInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerInfoTests.swift; sourceTree = "<group>"; };
+		1FA4369D2676DF5BB6327F8F /* ServerValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerValidatorTests.swift; sourceTree = "<group>"; };
+		E2F2BBD496753C2033EF5F55 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		775B4E813539190966304AAE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D6871E7FE5D3B289C2643DD7 /* OpenAVCPanel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenAVCPanel.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		465B721E281B8A67F3F41201 /* OpenAVCPanelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenAVCPanelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E8AE9A76A32E010BD8D7F8A9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		028532C3BFE86D4A4E601643 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BB3E2161E22BB2D48E13DE74 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				7BEF0FE89DCFCF666021D0D8 /* ContentView.swift */,
+				252790DE78770E4099932D5C /* OpenAVCPanelApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		B9B39438BC45A9B5EAD1B6A0 /* Discovery */ = {
+			isa = PBXGroup;
+			children = (
+				725C52E6D8191299859D73FB /* BonjourDiscovery.swift */,
+				89EAB84C6E5850AA6D740226 /* CertFetcher.swift */,
+				C5B94D7EA607F1BC1ADC67F4 /* CertTrustStore.swift */,
+				E6995C64680637DE6B26DBC4 /* ManualEntryView.swift */,
+				EFBAE0765A476FF08948CC25 /* PinnedTrust.swift */,
+				35C51B92DC50CB4043D82D1B /* QRScannerView.swift */,
+				76CB554615C01349808BF50E /* ServerDiscoveryView.swift */,
+				CFA99E0F7D55B5704A7049D5 /* ServerInfo.swift */,
+				39DD1FDCD26FB53A4B703DF6 /* ServerValidator.swift */,
+			);
+			path = Discovery;
+			sourceTree = "<group>";
+		};
+		BEAE3F938E609B1F08A44CE0 /* Kiosk */ = {
+			isa = PBXGroup;
+			children = (
+				2E48D222E38A3023D212DCCD /* GuidedAccessHelper.swift */,
+			);
+			path = Kiosk;
+			sourceTree = "<group>";
+		};
+		118CED29B3703F00DEB40746 /* Panel */ = {
+			isa = PBXGroup;
+			children = (
+				D78FAAE787A0A86A698DE077 /* PanelView.swift */,
+			);
+			path = Panel;
+			sourceTree = "<group>";
+		};
+		3BCC64F9584790557702CCF2 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				493148B3699E43ED4D54D5DF /* ServerStore.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		F49A65039C4050C27536EFDD /* OpenAVCPanel */ = {
+			isa = PBXGroup;
+			children = (
+				BB3E2161E22BB2D48E13DE74 /* App */,
+				B9B39438BC45A9B5EAD1B6A0 /* Discovery */,
+				BEAE3F938E609B1F08A44CE0 /* Kiosk */,
+				118CED29B3703F00DEB40746 /* Panel */,
+				3BCC64F9584790557702CCF2 /* Storage */,
+				E2F2BBD496753C2033EF5F55 /* Assets.xcassets */,
+				775B4E813539190966304AAE /* Info.plist */,
+			);
+			path = OpenAVCPanel;
+			sourceTree = "<group>";
+		};
+		5B641D6F9C0FA16BE0FFBCC1 /* OpenAVCPanelTests */ = {
+			isa = PBXGroup;
+			children = (
+				B2F4D8DA1F0D0BB76916CCE6 /* ServerInfoTests.swift */,
+				1FA4369D2676DF5BB6327F8F /* ServerValidatorTests.swift */,
+			);
+			path = OpenAVCPanelTests;
+			sourceTree = "<group>";
+		};
+		D9F1A7F0A7DEB2975D73D732 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D6871E7FE5D3B289C2643DD7 /* OpenAVCPanel.app */,
+				465B721E281B8A67F3F41201 /* OpenAVCPanelTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		09ABB7A49A38DF6DCF423DC8 = {
+			isa = PBXGroup;
+			children = (
+				F49A65039C4050C27536EFDD /* OpenAVCPanel */,
+				5B641D6F9C0FA16BE0FFBCC1 /* OpenAVCPanelTests */,
+				D9F1A7F0A7DEB2975D73D732 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7DD0A2F01353ED35078A4D5C /* OpenAVCPanel */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6CE31AED8D6CD8FA2589EBB1 /* Build configuration list for PBXNativeTarget "OpenAVCPanel" */;
+			buildPhases = (
+				90C5B320B3A8C11DF34384BA /* Sources */,
+				E8AE9A76A32E010BD8D7F8A9 /* Frameworks */,
+				5DBB941E1299242043EF4E9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenAVCPanel;
+			productName = OpenAVCPanel;
+			productReference = D6871E7FE5D3B289C2643DD7 /* OpenAVCPanel.app */;
+			productType = "com.apple.product-type.application";
+		};
+		416165E5D44795A49D73FC46 /* OpenAVCPanelTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 593DD2E1ECEE1D80F14C721D /* Build configuration list for PBXNativeTarget "OpenAVCPanelTests" */;
+			buildPhases = (
+				0D19D20E75FD5F695B17F1AC /* Sources */,
+				028532C3BFE86D4A4E601643 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D102DD6C7CD94661E108C949 /* PBXTargetDependency */,
+			);
+			name = OpenAVCPanelTests;
+			productName = OpenAVCPanelTests;
+			productReference = 465B721E281B8A67F3F41201 /* OpenAVCPanelTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D006D85A7F4FECF89D7A7CD3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2660;
+				LastUpgradeCheck = 2660;
+				TargetAttributes = {
+					416165E5D44795A49D73FC46 = {
+						TestTargetID = 7DD0A2F01353ED35078A4D5C;
+					};
+				};
+			};
+			buildConfigurationList = B1E14A829A57CFCA12A63398 /* Build configuration list for PBXProject "OpenAVCPanel" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 09ABB7A49A38DF6DCF423DC8;
+			productRefGroup = D9F1A7F0A7DEB2975D73D732 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7DD0A2F01353ED35078A4D5C /* OpenAVCPanel */,
+				416165E5D44795A49D73FC46 /* OpenAVCPanelTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5DBB941E1299242043EF4E9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82CC4A34AB6F8533D473165D /* Assets.xcassets in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		90C5B320B3A8C11DF34384BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8769DE9EEAA4E3E16DE8FA44 /* ContentView.swift in Sources */,
+				A558F6862D5077C662CAB885 /* OpenAVCPanelApp.swift in Sources */,
+				8EB579CFD32EAE1E038D9872 /* BonjourDiscovery.swift in Sources */,
+				BDC6ECF3DD1B0A96815B8661 /* CertFetcher.swift in Sources */,
+				F4B6F59EF9EEE4C6BB13E55C /* CertTrustStore.swift in Sources */,
+				D481264A21A494651FA1F973 /* ManualEntryView.swift in Sources */,
+				2B1B4F526FDF4DB8131F8404 /* PinnedTrust.swift in Sources */,
+				307CD2DAEDAE51B6E481647C /* QRScannerView.swift in Sources */,
+				CE6B232A4DAFF247D3231F20 /* ServerDiscoveryView.swift in Sources */,
+				08F08B059D06D8BDBAABF060 /* ServerInfo.swift in Sources */,
+				079DD2F86AA48346DC532F7D /* ServerValidator.swift in Sources */,
+				E9296F482A40A9422FD6BDE1 /* GuidedAccessHelper.swift in Sources */,
+				6F717A108E9ECA9B0E98C940 /* PanelView.swift in Sources */,
+				1B6E90FEC4F5B0D99C65BF0E /* ServerStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D19D20E75FD5F695B17F1AC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC8474AD685987EF0849211A /* ServerInfoTests.swift in Sources */,
+				255CAC0F727FC72A88ABC441 /* ServerValidatorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D102DD6C7CD94661E108C949 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7DD0A2F01353ED35078A4D5C /* OpenAVCPanel */;
+			targetProxy = ADFBC6835E3E38972BDA6273 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXContainerItemProxy section */
+		ADFBC6835E3E38972BDA6273 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D006D85A7F4FECF89D7A7CD3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DD0A2F01353ED35078A4D5C;
+			remoteInfo = OpenAVCPanel;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin XCBuildConfiguration section */
+		4BC37439D56AD84A22B8D8E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9FA8CA53DEDF5A7247005625 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		739143C2CBD95528B426CBE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = OpenAVCPanel/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openavc.panel;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CD50FED24340EA08D72716B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = OpenAVCPanel/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openavc.panel;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		253F8D86072B21167FFA64A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openavc.panel.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenAVCPanel.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OpenAVCPanel";
+			};
+			name = Debug;
+		};
+		F975E10C9C455BEC69999C89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openavc.panel.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenAVCPanel.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OpenAVCPanel";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B1E14A829A57CFCA12A63398 /* Build configuration list for PBXProject "OpenAVCPanel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BC37439D56AD84A22B8D8E2 /* Debug */,
+				9FA8CA53DEDF5A7247005625 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6CE31AED8D6CD8FA2589EBB1 /* Build configuration list for PBXNativeTarget "OpenAVCPanel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				739143C2CBD95528B426CBE4 /* Debug */,
+				CD50FED24340EA08D72716B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		593DD2E1ECEE1D80F14C721D /* Build configuration list for PBXNativeTarget "OpenAVCPanelTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				253F8D86072B21167FFA64A4 /* Debug */,
+				F975E10C9C455BEC69999C89 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D006D85A7F4FECF89D7A7CD3 /* Project object */;
+}
