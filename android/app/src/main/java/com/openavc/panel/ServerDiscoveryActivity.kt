@@ -96,7 +96,6 @@ class ServerDiscoveryActivity : AppCompatActivity() {
 
     private fun showManualEntryDialog() {
         val dialogBinding = DialogManualEntryBinding.inflate(LayoutInflater.from(this))
-        dialogBinding.hostInput.requestFocus()
         // Mirror the OpenAVC default ports as the user toggles HTTPS, but only
         // when the field is still showing the previous default (don't clobber
         // a port the user typed themselves).
@@ -116,9 +115,6 @@ class ServerDiscoveryActivity : AppCompatActivity() {
             .setPositiveButton(R.string.manual_connect, null)
             .setNegativeButton(R.string.cancel, null)
             .create()
-        dialog.window?.setSoftInputMode(
-            android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
-        )
         dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val host = dialogBinding.hostInput.text?.toString()?.trim().orEmpty()
@@ -138,7 +134,13 @@ class ServerDiscoveryActivity : AppCompatActivity() {
             }
         }
         dialog.setOnDismissListener { applyImmersive() }
-        dialog.showImmersive()
+        // Raise the keyboard through showImmersive, which does it after clearing
+        // FLAG_NOT_FOCUSABLE. The previous setSoftInputMode call could not work:
+        // it takes effect at show time, and the window is shown NOT_FOCUSABLE so
+        // that the system bars stay hidden, and a window that cannot take focus
+        // cannot raise a keyboard. This is why the field looked focused with no
+        // keyboard even though 1G recorded it as fixed.
+        dialog.showImmersive(dialogBinding.hostInput)
     }
 
     private fun connect(host: String, port: Int, fallbackName: String, scheme: String = "http") {
