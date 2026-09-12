@@ -23,6 +23,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.openavc.panel.databinding.ActivityMainBinding
 import com.openavc.panel.databinding.DialogUnlockPinBinding
@@ -190,6 +191,15 @@ class MainActivity : AppCompatActivity() {
         }
         sheetBinding.closeSheet.setOnClickListener { sheet.dismiss() }
         sheet.setContentView(sheetBinding.root)
+        // Open fully rather than at the default peek height. In landscape on a
+        // tablet the peek is short enough that only the title and the first
+        // button showed, with nothing to indicate the rest existed -- including
+        // "Panel settings", the way in to the admin PIN and the dedicated-panel
+        // lock. skipCollapsed keeps a drag-down from parking it back there.
+        sheet.behavior.apply {
+            state = BottomSheetBehavior.STATE_EXPANDED
+            skipCollapsed = true
+        }
         sheet.showImmersive()
     }
 
