@@ -1,0 +1,1325 @@
+{
+  "openavc_version": "0.13.0",
+  "project": {
+    "id": "demo_boardroom",
+    "name": "Executive Boardroom",
+    "description": "Store listing demo space",
+    "created": "2026-09-12T00:00:00",
+    "modified": "2026-09-12T00:00:00"
+  },
+  "devices": [],
+  "connections": {},
+  "driver_dependencies": [],
+  "device_groups": [],
+  "variables": [
+    {
+      "id": "current_source",
+      "type": "string",
+      "default": "laptop",
+      "label": "Source"
+    },
+    {
+      "id": "display_power",
+      "type": "string",
+      "default": "on",
+      "label": "Display power"
+    },
+    {
+      "id": "volume",
+      "type": "integer",
+      "default": 62,
+      "label": "Volume"
+    },
+    {
+      "id": "mute",
+      "type": "boolean",
+      "default": false,
+      "label": "Mute"
+    },
+    {
+      "id": "mic_mute",
+      "type": "boolean",
+      "default": false,
+      "label": "Mic mute"
+    },
+    {
+      "id": "lighting",
+      "type": "string",
+      "default": "present",
+      "label": "Lighting"
+    },
+    {
+      "id": "shades",
+      "type": "string",
+      "default": "closed",
+      "label": "Shades"
+    }
+  ],
+  "macros": [
+    {
+      "id": "shutdown",
+      "name": "Shut down space",
+      "steps": [
+        {
+          "action": "state.set",
+          "key": "var.display_power",
+          "value": "off"
+        },
+        {
+          "action": "state.set",
+          "key": "var.lighting",
+          "value": "off"
+        },
+        {
+          "action": "state.set",
+          "key": "var.shades",
+          "value": "open"
+        },
+        {
+          "action": "state.set",
+          "key": "var.mute",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "help",
+      "name": "Request help",
+      "steps": [
+        {
+          "action": "help.request",
+          "message": "Executive Boardroom needs a hand"
+        }
+      ]
+    }
+  ],
+  "scripts": [],
+  "plugins": {},
+  "plugin_dependencies": [],
+  "isc": {
+    "shared_state": [],
+    "auth_key": ""
+  },
+  "ui": {
+    "settings": {
+      "theme": "dark",
+      "theme_id": "slate",
+      "theme_overrides": {
+        "panel_bg": "#080b0e",
+        "panel_text": "#e4eae6",
+        "accent": "#8AB493",
+        "button_bg": "#232e38",
+        "button_text": "#e4eae6",
+        "button_border": "#34424e",
+        "surface": "#1a232b",
+        "surface_border": "#2c3843",
+        "border_radius": 0.7143
+      },
+      "element_entry": "none",
+      "show_error_messages": true
+    },
+    "custom_css": ".vol-fader .fader-track { width: 0.8571rem; background: #2b3641; border-color: #3a4753; }",
+    "pages": [
+      {
+        "id": "main",
+        "name": "Main",
+        "page_type": "page",
+        "elements": [
+          {
+            "id": "logo",
+            "type": "image",
+            "src": "assets://openavc-logo-wide.png",
+            "object_fit": "contain",
+            "style": {
+              "bg_color": "transparent",
+              "border_width": 0
+            }
+          },
+          {
+            "id": "space_name",
+            "type": "label",
+            "text": "Executive Boardroom",
+            "style": {
+              "font_size": 2.7,
+              "text_align": "left",
+              "text_color": "#e4eae6",
+              "letter_spacing": 0.02
+            }
+          },
+          {
+            "id": "clock",
+            "type": "clock",
+            "clock_mode": "time",
+            "format": "12",
+            "style": {
+              "font_size": 2.9,
+              "text_align": "right",
+              "text_color": "#e4eae6"
+            }
+          },
+          {
+            "id": "date",
+            "type": "clock",
+            "clock_mode": "date",
+            "style": {
+              "font_size": 1.35,
+              "text_align": "right",
+              "text_color": "#8b98a3"
+            }
+          },
+          {
+            "id": "g_sources",
+            "type": "group",
+            "label": "Source",
+            "label_position": "top-left",
+            "style": {
+              "bg_color": "#1a232b",
+              "border_color": "#2c3843",
+              "border_width": 0.0714,
+              "border_radius": 1.0,
+              "text_color": "#a3b0ba",
+              "font_size": 1.7,
+              "text_transform": "uppercase",
+              "letter_spacing": 0.14
+            }
+          },
+          {
+            "id": "src_laptop",
+            "type": "button",
+            "label": "Laptop",
+            "icon": "laptop",
+            "icon_position": "left",
+            "icon_size": 2.4,
+            "display_mode": "icon_text",
+            "style": {
+              "font_size": 1.7,
+              "text_align": "left",
+              "padding_horizontal": 1.4,
+              "letter_spacing": 0.02
+            },
+            "bindings": {
+              "show": {
+                "look": {
+                  "source": "state",
+                  "key": "var.current_source",
+                  "condition": {
+                    "equals": "laptop"
+                  },
+                  "style_active": {
+                    "bg_color": "#8AB493",
+                    "text_color": "#0b1210",
+                    "border_color": "#8AB493",
+                    "icon_color": "#0b1210"
+                  },
+                  "style_inactive": {
+                    "bg_color": "#232e38",
+                    "text_color": "#e4eae6",
+                    "border_color": "#34424e",
+                    "icon_color": "#7EB6D9"
+                  }
+                }
+              },
+              "do": {
+                "press": [
+                  {
+                    "action": "state.set",
+                    "key": "var.current_source",
+                    "value": "laptop"
+                  }
+                ]
+              }
+            },
+            "parent": "g_sources"
+          },
+          {
+            "id": "src_wireless",
+            "type": "button",
+            "label": "Wireless Share",
+            "icon": "cast",
+            "icon_position": "left",
+            "icon_size": 2.4,
+            "display_mode": "icon_text",
+            "style": {
+              "font_size": 1.7,
+              "text_align": "left",
+              "padding_horizontal": 1.4,
+              "letter_spacing": 0.02
+            },
+            "bindings": {
+              "show": {
+                "look": {
+                  "source": "state",
+                  "key": "var.current_source",
+                  "condition": {
+                    "equals": "wireless"
+                  },
+                  "style_active": {
+                    "bg_color": "#8AB493",
+                    "text_color": "#0b1210",
+                    "border_color": "#8AB493",
+                    "icon_color": "#0b1210"
+                  },
+                  "style_inactive": {
+                    "bg_color": "#232e38",
+                    "text_color": "#e4eae6",
+                    "border_color": "#34424e",
+                    "icon_color": "#C79BE0"
+                  }
+                }
+              },
+              "do": {
+                "press": [
+                  {
+                    "action": "state.set",
+                    "key": "var.current_source",
+                    "value": "wireless"
+                  }
+                ]
+              }
+            },
+            "parent": "g_sources"
+          },
+          {
+            "id": "src_vc",
+            "type": "button",
+            "label": "Video Call",
+            "icon": "video",
+            "icon_position": "left",
+            "icon_size": 2.4,
+            "display_mode": "icon_text",
+            "style": {
+              "font_size": 1.7,
+              "text_align": "left",
+              "padding_horizontal": 1.4,
+              "letter_spacing": 0.02
+            },
+            "bindings": {
+              "show": {
+                "look": {
+                  "source": "state",
+                  "key": "var.current_source",
+                  "condition": {
+                    "equals": "vc"
+                  },
+                  "style_active": {
+                    "bg_color": "#8AB493",
+                    "text_color": "#0b1210",
+                    "border_color": "#8AB493",
+                    "icon_color": "#0b1210"
+                  },
+                  "style_inactive": {
+                    "bg_color": "#232e38",
+                    "text_color": "#e4eae6",
+                    "border_color": "#34424e",
+                    "icon_color": "#6BC5B8"
+                  }
+                }
+              },
+              "do": {
+                "press": [
+                  {
+                    "action": "state.set",
+                    "key": "var.current_source",
+                    "value": "vc"
+                  }
+                ]
+              }
+            },
+            "parent": "g_sources"
+          },
+          {
+            "id": "src_media",
+            "type": "button",
+            "label": "Media Player",
+            "icon": "play",
+            "icon_position": "left",
+            "icon_size": 2.4,
+            "display_mode": "icon_text",
+            "style": {
+              "font_size": 1.7,
+              "text_align": "left",
+              "padding_horizontal": 1.4,
+              "letter_spacing": 0.02
+            },
+            "bindings": {
+              "show": {
+                "look": {
+                  "source": "state",
+                  "key": "var.current_source",
+                  "condition": {
+                    "equals": "media"
+                  },
+                  "style_active": {
+                    "bg_color": "#8AB493",
+                    "text_color": "#0b1210",
+                    "border_color": "#8AB493",
+                    "icon_color": "#0b1210"
+                  },
+                  "style_inactive": {
+                    "bg_color": "#232e38",
+                    "text_color": "#e4eae6",
+                    "border_color": "#34424e",
+                    "icon_color": "#E6B85C"
+                  }
+                }
+              },
+              "do": {
+                "press": [
+                  {
+                    "action": "state.set",
+                    "key": "var.current_source",
+                    "value": "media"
+                  }
+                ]
+              }
+            },
+            "parent": "g_sources"
+          },
+          {
+            "id": "g_display",
+            "type": "group",
+            "label": "Display",
+            "label_position": "top-left",
+            "style": {
+              "bg_color": "#1a232b",
+              "border_color": "#2c3843",
+              "border_width": 0.0714,
+              "border_radius": 1.0,
+              "text_color": "#a3b0ba",
+              "font_size": 1.7,
+              "text_transform": "uppercase",
+              "letter_spacing": 0.14
+            }
+          },
+          {
+            "id": "disp_power",
+            "type": "button",
+            "label": "Display",
+            "icon": "power",
+            "icon_position": "left",
+            "icon_size": 2.4,
+            "display_mode": "icon_text",
+            "parent": "g_display",
+            "style": {
+              "font_size": 1.7,
+              "text_align": "left",
+              "padding_horizontal": 1.4,
+              "bg_color": "#232e38",
+              "text_color": "#e4eae6",
+              "border_color": "#34424e"
+            },
+            "bindings": {
+              "do": {
+                "press": [
+                  {
+                    "action": "state.set",
+                    "key": "var.display_power",
+                    "value": "on",
+                    "mode": "toggle",
+                    "toggle_key": "var.display_power",
+                    "toggle_value": "on",
+                    "on_label": "Display On",
+                    "off_label": "Display Off",
+                    "off_action": {
+                      "action": "state.set",
+                      "key": "var.display_power",
+                      "value": "off"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "disp_led",
+            "type": "status_led",
+            "label": "Projector",
+            "parent": "g_display",
+            "aspect_lock": null,
+            "style": {
+              "font_size": 1.3,
+              "text_color": "#8b98a3"
+            },
+            "bindings": {
+              "show": {
+                "look": {
+                  "source": "state",
+                  "key": "var.display_power",
+                  "map": {
+                    "on": "#8AB493",
+                    "off": "#4a555f"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "screen_led",
+            "type": "status_led",
+            "label": "Screen",
+            "parent": "g_display",
+            "style": {
+              "font_size": 1.3,
+              "text_color": "#8b98a3"
+            },
+            "bindings": {
+              "show": {
+                "look": {
+                  "source": "state",
+                  "key": "var.display_power",
+                  "map": {
+                    "on": "#8AB493",
+                    "off": "#4a555f"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "g_lights",
+            "type": "group",
+            "label": "Lighting",
+            "label_position": "top-left",
+            "style": {
+              "bg_color": "#1a232b",
+              "border_color": "#2c3843",
+              "border_width": 0.0714,
+              "border_radius": 1.0,
+              "text_color": "#a3b0ba",
+              "font_size": 1.7,
+              "text_transform": "uppercase",
+              "letter_spacing": 0.14
+            }
+          },
+          {
+            "id": "lt_present",
+            "type": "button",
+            "label": "Present",
+            "icon": "presentation",
+            "icon_position": "top",
+            "icon_size": 2.2,
+            "display_mode": "icon_text",
+            "style": {
+              "font_size": 1.3,
+              "text_align": "center",
+              "letter_spacing": 0.02
+            },
+            "bindings": {
+              "show": {
+                "look": {
+                  "source": "state",
+                  "key": "var.lighting",
+                  "condition": {
+                    "equals": "present"
+                  },
+                  "style_active": {
+                    "bg_color": "#E6B85C",
+                    "text_color": "#0b1210",
+                    "border_color": "#E6B85C",
+                    "icon_color": "#0b1210"
+                  },
+                  "style_inactive": {
+                    "bg_color": "#232e38",
+                    "text_color": "#e4eae6",
+                    "border_color": "#34424e",
+                    "icon_color": "#E6B85C"
+                  }
+                }
+              },
+              "do": {
+                "press": [
+                  {
+                    "action": "state.set",
+                    "key": "var.lighting",
+                    "value": "present"
+                  }
+                ]
+              }
+            },
+            "parent": "g_lights"
+          },
+          {
+            "id": "lt_meet",
+            "type": "button",
+            "label": "Meeting",
+            "icon": "sun",
+            "icon_position": "top",
+            "icon_size": 2.2,
+            "display_mode": "icon_text",
+            "style": {
+              "font_size": 1.3,
+              "text_align": "center",
+              "letter_spacing": 0.02
+            },
+            "bindings": {
+              "show": {
+                "look": {
+                  "source": "state",
+                  "key": "var.lighting",
+                  "condition": {
+                    "equals": "meeting"
+                  },
+                  "style_active": {
+                    "bg_color": "#E6B85C",
+                    "text_color": "#0b1210",
+                    "border_color": "#E6B85C",
+                    "icon_color": "#0b1210"
+                  },
+                  "style_inactive": {
+                    "bg_color": "#232e38",
+                    "text_color": "#e4eae6",
+                    "border_color": "#34424e",
+                    "icon_color": "#E6B85C"
+                  }
+                }
+              },
+              "do": {
+                "press": [
+                  {
+                    "action": "state.set",
+                    "key": "var.lighting",
+                    "value": "meeting"
+                  }
+                ]
+              }
+            },
+            "parent": "g_lights"
+          },
+          {
+            "id": "lt_dim",
+            "type": "button",
+            "label": "Dimmed",
+            "icon": "sun-dim",
+            "icon_position": "top",
+            "icon_size": 2.2,
+            "display_mode": "icon_text",
+            "style": {
+              "font_size": 1.3,
+              "text_align": "center",
+              "letter_spacing": 0.02
+            },
+            "bindings": {
+              "show": {
+                "look": {
+                  "source": "state",
+                  "key": "var.lighting",
+                  "condition": {
+                    "equals": "dim"
+                  },
+                  "style_active": {
+                    "bg_color": "#E6B85C",
+                    "text_color": "#0b1210",
+                    "border_color": "#E6B85C",
+                    "icon_color": "#0b1210"
+                  },
+                  "style_inactive": {
+                    "bg_color": "#232e38",
+                    "text_color": "#e4eae6",
+                    "border_color": "#34424e",
+                    "icon_color": "#E6B85C"
+                  }
+                }
+              },
+              "do": {
+                "press": [
+                  {
+                    "action": "state.set",
+                    "key": "var.lighting",
+                    "value": "dim"
+                  }
+                ]
+              }
+            },
+            "parent": "g_lights"
+          },
+          {
+            "id": "lt_off",
+            "type": "button",
+            "label": "Off",
+            "icon": "moon",
+            "icon_position": "top",
+            "icon_size": 2.2,
+            "display_mode": "icon_text",
+            "style": {
+              "font_size": 1.3,
+              "text_align": "center",
+              "letter_spacing": 0.02
+            },
+            "bindings": {
+              "show": {
+                "look": {
+                  "source": "state",
+                  "key": "var.lighting",
+                  "condition": {
+                    "equals": "off"
+                  },
+                  "style_active": {
+                    "bg_color": "#E6B85C",
+                    "text_color": "#0b1210",
+                    "border_color": "#E6B85C",
+                    "icon_color": "#0b1210"
+                  },
+                  "style_inactive": {
+                    "bg_color": "#232e38",
+                    "text_color": "#e4eae6",
+                    "border_color": "#34424e",
+                    "icon_color": "#E6B85C"
+                  }
+                }
+              },
+              "do": {
+                "press": [
+                  {
+                    "action": "state.set",
+                    "key": "var.lighting",
+                    "value": "off"
+                  }
+                ]
+              }
+            },
+            "parent": "g_lights"
+          },
+          {
+            "id": "g_shades",
+            "type": "group",
+            "label": "Shades",
+            "label_position": "top-left",
+            "style": {
+              "bg_color": "#1a232b",
+              "border_color": "#2c3843",
+              "border_width": 0.0714,
+              "border_radius": 1.0,
+              "text_color": "#a3b0ba",
+              "font_size": 1.7,
+              "text_transform": "uppercase",
+              "letter_spacing": 0.14
+            }
+          },
+          {
+            "id": "sh_open",
+            "type": "button",
+            "label": "Open",
+            "icon": "chevrons-up",
+            "icon_position": "top",
+            "icon_size": 2.2,
+            "display_mode": "icon_text",
+            "style": {
+              "font_size": 1.3,
+              "text_align": "center",
+              "letter_spacing": 0.02
+            },
+            "bindings": {
+              "show": {
+                "look": {
+                  "source": "state",
+                  "key": "var.shades",
+                  "condition": {
+                    "equals": "open"
+                  },
+                  "style_active": {
+                    "bg_color": "#7EB6D9",
+                    "text_color": "#0b1210",
+                    "border_color": "#7EB6D9",
+                    "icon_color": "#0b1210"
+                  },
+                  "style_inactive": {
+                    "bg_color": "#232e38",
+                    "text_color": "#e4eae6",
+                    "border_color": "#34424e",
+                    "icon_color": "#7EB6D9"
+                  }
+                }
+              },
+              "do": {
+                "press": [
+                  {
+                    "action": "state.set",
+                    "key": "var.shades",
+                    "value": "open"
+                  }
+                ]
+              }
+            },
+            "parent": "g_shades"
+          },
+          {
+            "id": "sh_close",
+            "type": "button",
+            "label": "Close",
+            "icon": "chevrons-down",
+            "icon_position": "top",
+            "icon_size": 2.2,
+            "display_mode": "icon_text",
+            "style": {
+              "font_size": 1.3,
+              "text_align": "center",
+              "letter_spacing": 0.02
+            },
+            "bindings": {
+              "show": {
+                "look": {
+                  "source": "state",
+                  "key": "var.shades",
+                  "condition": {
+                    "equals": "closed"
+                  },
+                  "style_active": {
+                    "bg_color": "#7EB6D9",
+                    "text_color": "#0b1210",
+                    "border_color": "#7EB6D9",
+                    "icon_color": "#0b1210"
+                  },
+                  "style_inactive": {
+                    "bg_color": "#232e38",
+                    "text_color": "#e4eae6",
+                    "border_color": "#34424e",
+                    "icon_color": "#7EB6D9"
+                  }
+                }
+              },
+              "do": {
+                "press": [
+                  {
+                    "action": "state.set",
+                    "key": "var.shades",
+                    "value": "closed"
+                  }
+                ]
+              }
+            },
+            "parent": "g_shades"
+          },
+          {
+            "id": "g_audio",
+            "type": "group",
+            "label": "Audio",
+            "label_position": "top-left",
+            "style": {
+              "bg_color": "#1a232b",
+              "border_color": "#2c3843",
+              "border_width": 0.0714,
+              "border_radius": 1.0,
+              "text_color": "#a3b0ba",
+              "font_size": 1.7,
+              "text_transform": "uppercase",
+              "letter_spacing": 0.14
+            }
+          },
+          {
+            "id": "vol",
+            "type": "fader",
+            "label": "Program",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "orientation": "vertical",
+            "parent": "g_audio",
+            "display_decimals": 0,
+            "css_class": "vol-fader",
+            "style": {
+              "text_color": "#e4eae6",
+              "font_size": 1.4
+            },
+            "bindings": {
+              "show": {
+                "value": {
+                  "source": "state",
+                  "key": "var.volume",
+                  "write_back": true
+                }
+              }
+            }
+          },
+          {
+            "id": "mute",
+            "type": "button",
+            "label": "Mute",
+            "icon": "volume-x",
+            "icon_position": "top",
+            "icon_size": 2.4,
+            "display_mode": "icon_text",
+            "parent": "g_audio",
+            "icon_color": "#E0806F",
+            "style": {
+              "font_size": 1.4,
+              "bg_color": "#232e38",
+              "text_color": "#e4eae6",
+              "border_color": "#34424e",
+              "accent_color": "#E0806F"
+            },
+            "bindings": {
+              "do": {
+                "press": [
+                  {
+                    "action": "state.set",
+                    "key": "var.mute",
+                    "value": true,
+                    "mode": "toggle",
+                    "toggle_key": "var.mute",
+                    "toggle_value": "true",
+                    "on_label": "Muted",
+                    "off_label": "Mute",
+                    "off_action": {
+                      "action": "state.set",
+                      "key": "var.mute",
+                      "value": false
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "mic_mute",
+            "type": "button",
+            "label": "Mics",
+            "icon": "mic",
+            "icon_position": "top",
+            "icon_size": 2.4,
+            "display_mode": "icon_text",
+            "parent": "g_audio",
+            "icon_color": "#6BC5B8",
+            "style": {
+              "font_size": 1.4,
+              "bg_color": "#232e38",
+              "text_color": "#e4eae6",
+              "border_color": "#34424e",
+              "accent_color": "#E0806F"
+            },
+            "bindings": {
+              "do": {
+                "press": [
+                  {
+                    "action": "state.set",
+                    "key": "var.mic_mute",
+                    "value": true,
+                    "mode": "toggle",
+                    "toggle_key": "var.mic_mute",
+                    "toggle_value": "true",
+                    "on_label": "Mics Muted",
+                    "off_label": "Mics Live",
+                    "off_action": {
+                      "action": "state.set",
+                      "key": "var.mic_mute",
+                      "value": false
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "sys_off",
+            "type": "button",
+            "label": "Shut Down Space",
+            "icon": "power-off",
+            "icon_position": "left",
+            "icon_size": 2.0,
+            "icon_color": "#E6B85C",
+            "display_mode": "icon_text",
+            "style": {
+              "font_size": 1.4,
+              "bg_color": "transparent",
+              "text_color": "#8b98a3",
+              "border_color": "#2c3843",
+              "border_width": 0.0714
+            },
+            "bindings": {
+              "do": {
+                "press": [
+                  {
+                    "action": "macro",
+                    "macro": "shutdown"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "help",
+            "type": "button",
+            "label": "Request Help",
+            "icon": "life-buoy",
+            "icon_position": "left",
+            "icon_size": 2.0,
+            "icon_color": "#E0806F",
+            "display_mode": "icon_text",
+            "style": {
+              "font_size": 1.4,
+              "bg_color": "transparent",
+              "text_color": "#8b98a3",
+              "border_color": "#2c3843",
+              "border_width": 0.0714
+            },
+            "bindings": {
+              "do": {
+                "press": [
+                  {
+                    "action": "macro",
+                    "macro": "help"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "background": {
+          "color": "#080b0e",
+          "gradient": {
+            "type": "linear",
+            "angle": 155,
+            "from": "#0f1a1b",
+            "to": "#06080b"
+          }
+        },
+        "layouts": [
+          {
+            "id": "landscape",
+            "orientation": "landscape",
+            "primary": true,
+            "inherits": null,
+            "placements": {
+              "logo": {
+                "x": 2.5,
+                "y": 2.4,
+                "w": 15,
+                "h": 9.5
+              },
+              "space_name": {
+                "x": 19.5,
+                "y": 2.4,
+                "w": 45,
+                "h": 9.5
+              },
+              "clock": {
+                "x": 72,
+                "y": 1.6,
+                "w": 25.5,
+                "h": 7.5
+              },
+              "date": {
+                "x": 72,
+                "y": 8.2,
+                "w": 25.5,
+                "h": 4.5
+              },
+              "g_sources": {
+                "x": 2.5,
+                "y": 15,
+                "w": 27,
+                "h": 71
+              },
+              "g_display": {
+                "x": 31.5,
+                "y": 15,
+                "w": 37,
+                "h": 25
+              },
+              "g_lights": {
+                "x": 31.5,
+                "y": 42.5,
+                "w": 37,
+                "h": 21
+              },
+              "g_shades": {
+                "x": 31.5,
+                "y": 66,
+                "w": 37,
+                "h": 20
+              },
+              "g_audio": {
+                "x": 70.5,
+                "y": 15,
+                "w": 27,
+                "h": 71
+              },
+              "sys_off": {
+                "x": 2.5,
+                "y": 89.5,
+                "w": 27,
+                "h": 8
+              },
+              "help": {
+                "x": 70.5,
+                "y": 89.5,
+                "w": 27,
+                "h": 8
+              },
+              "src_laptop": {
+                "x": 5,
+                "y": 10,
+                "w": 90,
+                "h": 19.5
+              },
+              "src_wireless": {
+                "x": 5,
+                "y": 32,
+                "w": 90,
+                "h": 19.5
+              },
+              "src_vc": {
+                "x": 5,
+                "y": 54,
+                "w": 90,
+                "h": 19.5
+              },
+              "src_media": {
+                "x": 5,
+                "y": 76,
+                "w": 90,
+                "h": 19.5
+              },
+              "disp_power": {
+                "x": 5,
+                "y": 22,
+                "w": 52,
+                "h": 66
+              },
+              "disp_led": {
+                "x": 60,
+                "y": 26,
+                "w": 39,
+                "h": 26
+              },
+              "screen_led": {
+                "x": 60,
+                "y": 58,
+                "w": 39,
+                "h": 26
+              },
+              "lt_present": {
+                "x": 4.0,
+                "y": 24,
+                "w": 21.5,
+                "h": 66
+              },
+              "lt_meet": {
+                "x": 27.5,
+                "y": 24,
+                "w": 21.5,
+                "h": 66
+              },
+              "lt_dim": {
+                "x": 51.0,
+                "y": 24,
+                "w": 21.5,
+                "h": 66
+              },
+              "lt_off": {
+                "x": 74.5,
+                "y": 24,
+                "w": 21.5,
+                "h": 66
+              },
+              "sh_open": {
+                "x": 4,
+                "y": 24,
+                "w": 44.5,
+                "h": 66
+              },
+              "sh_close": {
+                "x": 51.5,
+                "y": 24,
+                "w": 44.5,
+                "h": 66
+              },
+              "vol": {
+                "x": 31,
+                "y": 10,
+                "w": 38,
+                "h": 56
+              },
+              "mute": {
+                "x": 8,
+                "y": 72,
+                "w": 40,
+                "h": 22
+              },
+              "mic_mute": {
+                "x": 52,
+                "y": 72,
+                "w": 40,
+                "h": 22
+              }
+            },
+            "hidden": []
+          },
+          {
+            "id": "portrait",
+            "orientation": "portrait",
+            "primary": false,
+            "inherits": null,
+            "placements": {
+              "logo": {
+                "x": 4,
+                "y": 1.8,
+                "w": 30,
+                "h": 6
+              },
+              "space_name": {
+                "x": 4,
+                "y": 8.2,
+                "w": 55,
+                "h": 5.5
+              },
+              "clock": {
+                "x": 60,
+                "y": 1.6,
+                "w": 36,
+                "h": 5.5
+              },
+              "date": {
+                "x": 60,
+                "y": 7,
+                "w": 36,
+                "h": 3.5
+              },
+              "g_sources": {
+                "x": 4,
+                "y": 15.5,
+                "w": 44,
+                "h": 40
+              },
+              "g_display": {
+                "x": 4,
+                "y": 58,
+                "w": 92,
+                "h": 12
+              },
+              "g_lights": {
+                "x": 4,
+                "y": 72.5,
+                "w": 55,
+                "h": 13
+              },
+              "g_shades": {
+                "x": 62,
+                "y": 72.5,
+                "w": 34,
+                "h": 13
+              },
+              "g_audio": {
+                "x": 52,
+                "y": 15.5,
+                "w": 44,
+                "h": 40
+              },
+              "sys_off": {
+                "x": 4,
+                "y": 89,
+                "w": 44,
+                "h": 6
+              },
+              "help": {
+                "x": 52,
+                "y": 89,
+                "w": 44,
+                "h": 6
+              },
+              "src_laptop": {
+                "x": 5,
+                "y": 10,
+                "w": 90,
+                "h": 19.5
+              },
+              "src_wireless": {
+                "x": 5,
+                "y": 32,
+                "w": 90,
+                "h": 19.5
+              },
+              "src_vc": {
+                "x": 5,
+                "y": 54,
+                "w": 90,
+                "h": 19.5
+              },
+              "src_media": {
+                "x": 5,
+                "y": 76,
+                "w": 90,
+                "h": 19.5
+              },
+              "disp_power": {
+                "x": 2.5,
+                "y": 22,
+                "w": 45,
+                "h": 62
+              },
+              "disp_led": {
+                "x": 55,
+                "y": 24,
+                "w": 22,
+                "h": 50
+              },
+              "screen_led": {
+                "x": 77,
+                "y": 24,
+                "w": 22,
+                "h": 50
+              },
+              "lt_present": {
+                "x": 4.0,
+                "y": 24,
+                "w": 21.5,
+                "h": 66
+              },
+              "lt_meet": {
+                "x": 27.5,
+                "y": 24,
+                "w": 21.5,
+                "h": 66
+              },
+              "lt_dim": {
+                "x": 51.0,
+                "y": 24,
+                "w": 21.5,
+                "h": 66
+              },
+              "lt_off": {
+                "x": 74.5,
+                "y": 24,
+                "w": 21.5,
+                "h": 66
+              },
+              "sh_open": {
+                "x": 4,
+                "y": 24,
+                "w": 44.5,
+                "h": 66
+              },
+              "sh_close": {
+                "x": 51.5,
+                "y": 24,
+                "w": 44.5,
+                "h": 66
+              },
+              "vol": {
+                "x": 30,
+                "y": 8,
+                "w": 40,
+                "h": 60
+              },
+              "mute": {
+                "x": 8,
+                "y": 74,
+                "w": 40,
+                "h": 20
+              },
+              "mic_mute": {
+                "x": 52,
+                "y": 74,
+                "w": 40,
+                "h": 20
+              }
+            },
+            "hidden": []
+          }
+        ]
+      }
+    ],
+    "master_elements": [],
+    "page_groups": []
+  }
+}
