@@ -40,6 +40,5 @@ struct AdminSheet: View {
                 }
             }
         }
-        .preferredColorScheme(.dark)
     }
 }

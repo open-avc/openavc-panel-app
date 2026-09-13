@@ -54,7 +54,6 @@ struct KioskSetupView: View {
                 for: UIAccessibility.guidedAccessStatusDidChangeNotification
             )) { _ in refresh() }
         }
-        .preferredColorScheme(.dark)
     }
 
     // MARK: State

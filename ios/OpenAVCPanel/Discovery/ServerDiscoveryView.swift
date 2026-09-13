@@ -17,13 +17,11 @@ struct ServerDiscoveryView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.black.ignoresSafeArea()
+                Color(.systemGroupedBackground).ignoresSafeArea()
                 content
             }
             .navigationTitle("Choose a server")
             .navigationBarTitleDisplayMode(.large)
-            .toolbarBackground(.black, for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
@@ -71,7 +69,6 @@ struct ServerDiscoveryView: View {
                         } label: {
                             ServerRow(server: server)
                         }
-                        .listRowBackground(Color.white.opacity(0.06))
                     }
                 } footer: {
                     VStack(spacing: 0) {
@@ -81,7 +78,6 @@ struct ServerDiscoveryView: View {
                     .padding(.top, 12)
                 }
             }
-            .scrollContentBackground(.hidden)
         }
     }
 
@@ -93,21 +89,19 @@ struct ServerDiscoveryView: View {
                     .foregroundStyle(.orange)
                 Text("No servers found")
                     .font(.title3.weight(.semibold))
-                    .foregroundStyle(.white)
                 // iOS reports a local-network denial by silently returning
                 // nothing, so this is a hint rather than a diagnosis.
                 Text("If you didn't allow local network access, OpenAVC can't see servers on your network. Turn it on in Settings > Privacy & Security > Local Network, or enter the server's address directly.")
                     .font(.callout)
-                    .foregroundStyle(.white.opacity(0.6))
+                    .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             } else {
-                ProgressView().tint(.white)
+                ProgressView()
                 Text("Looking for servers…")
                     .font(.title3.weight(.semibold))
-                    .foregroundStyle(.white)
                 Text("Make sure this tablet is on the same network as your OpenAVC server.")
                     .font(.callout)
-                    .foregroundStyle(.white.opacity(0.6))
+                    .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
             serverNote
@@ -117,7 +111,6 @@ struct ServerDiscoveryView: View {
                     showScanner = true
                 } label: {
                     Label("Scan code", systemImage: "qrcode.viewfinder")
-                        .foregroundStyle(.black)
                 }
                 .buttonStyle(.borderedProminent)
                 Button {
@@ -127,7 +120,6 @@ struct ServerDiscoveryView: View {
                 }
                 .buttonStyle(.bordered)
             }
-            .tint(.white)
             .padding(.top, 8)
         }
         .padding(40)
@@ -139,14 +131,14 @@ struct ServerDiscoveryView: View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: "server.rack")
                 .font(.title3)
-                .foregroundStyle(.white.opacity(0.7))
+                .foregroundStyle(.secondary)
             Text("OpenAVC Panel is the touch panel for an OpenAVC system. It needs the OpenAVC server running on your network. Install the server on Windows, macOS, Linux, a Raspberry Pi or Docker from openavc.com, then come back here to connect.")
                 .font(.callout)
-                .foregroundStyle(.white.opacity(0.7))
+                .foregroundStyle(.secondary)
                 .multilineTextAlignment(.leading)
         }
         .padding(14)
-        .background(Color.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 12))
+        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         .padding(.top, 12)
     }
 
@@ -156,14 +148,14 @@ struct ServerDiscoveryView: View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: "hand.tap")
                 .font(.title3)
-                .foregroundStyle(.white.opacity(0.7))
+                .foregroundStyle(.secondary)
             Text("Once the panel is showing, tap the top-left corner of the screen three times to open the admin menu: change server, Panel settings, and the dedicated-panel lock.")
                 .font(.callout)
-                .foregroundStyle(.white.opacity(0.7))
+                .foregroundStyle(.secondary)
                 .multilineTextAlignment(.leading)
         }
         .padding(14)
-        .background(Color.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 12))
+        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         .padding(.top, 12)
     }
 
@@ -234,25 +226,25 @@ private struct ServerRow: View {
         HStack(spacing: 14) {
             Image(systemName: server.scheme == "https" ? "lock.display" : "display")
                 .font(.system(size: 26))
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(Color.accentColor)
                 .frame(width: 34)
             VStack(alignment: .leading, spacing: 3) {
                 Text(server.name)
                     .font(.headline)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.primary)
                 Text("\(server.host):\(String(server.port))")
                     .font(.subheadline)
-                    .foregroundStyle(.white.opacity(0.55))
+                    .foregroundStyle(.secondary)
                 if !server.version.isEmpty {
                     Text("OpenAVC \(server.version)")
                         .font(.caption)
-                        .foregroundStyle(.white.opacity(0.4))
+                        .foregroundStyle(.tertiary)
                 }
             }
             Spacer()
             Image(systemName: "chevron.right")
                 .font(.footnote.weight(.semibold))
-                .foregroundStyle(.white.opacity(0.3))
+                .foregroundStyle(.tertiary)
         }
         .padding(.vertical, 6)
     }
