@@ -74,7 +74,11 @@ struct ServerDiscoveryView: View {
                         .listRowBackground(Color.white.opacity(0.06))
                     }
                 } footer: {
-                    adminHint.padding(.top, 12)
+                    VStack(spacing: 0) {
+                        serverNote
+                        adminHint
+                    }
+                    .padding(.top, 12)
                 }
             }
             .scrollContentBackground(.hidden)
@@ -106,6 +110,7 @@ struct ServerDiscoveryView: View {
                     .foregroundStyle(.white.opacity(0.6))
                     .multilineTextAlignment(.center)
             }
+            serverNote
             adminHint
             HStack(spacing: 12) {
                 Button {
@@ -126,6 +131,23 @@ struct ServerDiscoveryView: View {
             .padding(.top, 8)
         }
         .padding(40)
+    }
+
+    /// The first thing a person who installed the app without a server needs
+    /// to read: this is the panel, not the system.
+    private var serverNote: some View {
+        HStack(alignment: .top, spacing: 10) {
+            Image(systemName: "server.rack")
+                .font(.title3)
+                .foregroundStyle(.white.opacity(0.7))
+            Text("OpenAVC Panel is the touch panel for an OpenAVC system. It needs the OpenAVC server running on your network. Install the server on Windows, macOS, Linux, a Raspberry Pi or Docker from openavc.com, then come back here to connect.")
+                .font(.callout)
+                .foregroundStyle(.white.opacity(0.7))
+                .multilineTextAlignment(.leading)
+        }
+        .padding(14)
+        .background(Color.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 12))
+        .padding(.top, 12)
     }
 
     /// Told here, on the first screen, because once the panel is up there is
