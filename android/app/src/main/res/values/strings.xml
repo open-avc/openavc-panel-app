@@ -13,7 +13,7 @@
 
     <!-- Discovery -->
     <string name="discovery_title">Find your OpenAVC</string>
-    <string name="discovery_subtitle">Pick a system from the list, scan the QR from the Programmer, or enter an address directly. Once the panel is showing, tap the top-left corner of the screen three times to open the admin menu: change server, Panel settings, and the dedicated-panel lock.</string>
+    <string name="discovery_subtitle">OpenAVC Panel is the touch panel for an OpenAVC system. It needs the OpenAVC server running on your network: install the server on Windows, macOS, Linux, a Raspberry Pi or Docker from openavc.com, then come back here. Pick a system from the list, scan the QR from the Programmer, or enter an address directly. Once the panel is showing, tap the top-left corner of the screen three times to open the admin menu: change server, Panel settings, and the dedicated-panel lock.</string>
     <string name="discovery_section_network">Systems on your network</string>
     <string name="discovery_empty">Searching the network…</string>
     <string name="discovery_scan_qr">Scan QR code</string>
