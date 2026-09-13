@@ -69,6 +69,7 @@ struct ServerDiscoveryView: View {
                         } label: {
                             ServerRow(server: server)
                         }
+                        .buttonStyle(.plain)
                     }
                 } footer: {
                     VStack(spacing: 0) {
