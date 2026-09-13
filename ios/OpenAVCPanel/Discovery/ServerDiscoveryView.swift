@@ -131,10 +131,10 @@ struct ServerDiscoveryView: View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: "server.rack")
                 .font(.title3)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.accentColor)
             Text("OpenAVC Panel is the touch panel for an OpenAVC system. It needs the OpenAVC server running on your network. Install the server on Windows, macOS, Linux, a Raspberry Pi or Docker from openavc.com, then come back here to connect.")
                 .font(.callout)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.primary)
                 .multilineTextAlignment(.leading)
         }
         .padding(14)
@@ -148,10 +148,10 @@ struct ServerDiscoveryView: View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: "hand.tap")
                 .font(.title3)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.accentColor)
             Text("Once the panel is showing, tap the top-left corner of the screen three times to open the admin menu: change server, Panel settings, and the dedicated-panel lock.")
                 .font(.callout)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.primary)
                 .multilineTextAlignment(.leading)
         }
         .padding(14)
