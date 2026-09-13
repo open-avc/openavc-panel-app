@@ -105,6 +105,7 @@ struct ServerDiscoveryView: View {
                     showScanner = true
                 } label: {
                     Label("Scan code", systemImage: "qrcode.viewfinder")
+                        .foregroundStyle(.black)
                 }
                 .buttonStyle(.borderedProminent)
                 Button {

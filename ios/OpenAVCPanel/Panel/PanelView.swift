@@ -10,9 +10,17 @@ import WebKit
 struct PanelView: UIViewRepresentable {
     let server: ServerInfo
     let onNavigationFailure: (String) -> Void
+    /// Three taps in the top-left corner within two seconds, the same gesture
+    /// as Android's `MainActivity.dispatchTouchEvent`. The web panel still
+    /// receives every one of those touches.
+    let onAdminHotspot: () -> Void
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(server: server, onNavigationFailure: onNavigationFailure)
+        Coordinator(
+            server: server,
+            onNavigationFailure: onNavigationFailure,
+            onAdminHotspot: onAdminHotspot
+        )
     }
 
     func makeUIView(context: Context) -> WKWebView {
@@ -33,6 +41,13 @@ struct PanelView: UIViewRepresentable {
         webView.backgroundColor = .black
         webView.scrollView.backgroundColor = .black
 
+        let cornerTap = UITapGestureRecognizer(
+            target: context.coordinator, action: #selector(Coordinator.cornerTapped(_:))
+        )
+        cornerTap.cancelsTouchesInView = false
+        cornerTap.delegate = context.coordinator
+        webView.addGestureRecognizer(cornerTap)
+
         UIApplication.shared.isIdleTimerDisabled = true
 
         if let url = URL(string: server.panelUrl) {
@@ -51,14 +66,59 @@ struct PanelView: UIViewRepresentable {
         webView.navigationDelegate = nil
     }
 
-    final class Coordinator: NSObject, WKNavigationDelegate {
+    final class Coordinator: NSObject, WKNavigationDelegate, UIGestureRecognizerDelegate {
         var server: ServerInfo
         private let onNavigationFailure: (String) -> Void
+        private let onAdminHotspot: () -> Void
         private let trustStore = CertTrustStore()
 
-        init(server: ServerInfo, onNavigationFailure: @escaping (String) -> Void) {
+        private static let cornerHotspot: CGFloat = 80
+        private static let cornerTapsRequired = 3
+        private static let cornerTapWindow: TimeInterval = 2
+        private var cornerTapCount = 0
+        private var cornerTapWindowEnd: TimeInterval = 0
+
+        init(
+            server: ServerInfo,
+            onNavigationFailure: @escaping (String) -> Void,
+            onAdminHotspot: @escaping () -> Void
+        ) {
             self.server = server
             self.onNavigationFailure = onNavigationFailure
+            self.onAdminHotspot = onAdminHotspot
+        }
+
+        // MARK: Corner triple-tap
+
+        /// Only a touch in the corner is ours to count; everything else goes
+        /// straight to the web view without this recognizer in the way.
+        func gestureRecognizer(
+            _ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch
+        ) -> Bool {
+            let point = touch.location(in: gestureRecognizer.view)
+            return point.x <= Self.cornerHotspot && point.y <= Self.cornerHotspot
+        }
+
+        func gestureRecognizer(
+            _ gestureRecognizer: UIGestureRecognizer,
+            shouldRecognizeSimultaneouslyWith other: UIGestureRecognizer
+        ) -> Bool {
+            true
+        }
+
+        @objc func cornerTapped(_ recognizer: UITapGestureRecognizer) {
+            let now = Date().timeIntervalSinceReferenceDate
+            if now > cornerTapWindowEnd {
+                cornerTapCount = 1
+                cornerTapWindowEnd = now + Self.cornerTapWindow
+                return
+            }
+            cornerTapCount += 1
+            if cornerTapCount >= Self.cornerTapsRequired {
+                cornerTapCount = 0
+                cornerTapWindowEnd = 0
+                onAdminHotspot()
+            }
         }
 
         /// The whole reason this delegate exists.

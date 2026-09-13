@@ -24,6 +24,10 @@
 		FC8474AD685987EF0849211A /* ServerInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F4D8DA1F0D0BB76916CCE6 /* ServerInfoTests.swift */; };
 		255CAC0F727FC72A88ABC441 /* ServerValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA4369D2676DF5BB6327F8F /* ServerValidatorTests.swift */; };
 		82CC4A34AB6F8533D473165D /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = E2F2BBD496753C2033EF5F55 /* Assets.xcassets */; };
+		FBDF3D8C54E2E87F4851925F /* KioskPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A63CD50231BBF934746C1 /* KioskPreferences.swift */; };
+		D196947BB6D531BE250FD8FD /* KioskSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0888E995E184BA16E3C5D93C /* KioskSetupView.swift */; };
+		7650F85641065DD416676FD7 /* AdminSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE87C3A9BF464CFABCFB49DD /* AdminSheet.swift */; };
+		3F63F878AEEEA10685499EB8 /* KioskPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD9EF45E1186517DDCC83A1 /* KioskPreferencesTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +51,10 @@
 		775B4E813539190966304AAE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D6871E7FE5D3B289C2643DD7 /* OpenAVCPanel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenAVCPanel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		465B721E281B8A67F3F41201 /* OpenAVCPanelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenAVCPanelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A9A63CD50231BBF934746C1 /* KioskPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KioskPreferences.swift; sourceTree = "<group>"; };
+		0888E995E184BA16E3C5D93C /* KioskSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KioskSetupView.swift; sourceTree = "<group>"; };
+		DE87C3A9BF464CFABCFB49DD /* AdminSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminSheet.swift; sourceTree = "<group>"; };
+		CAD9EF45E1186517DDCC83A1 /* KioskPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KioskPreferencesTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +103,8 @@
 		BEAE3F938E609B1F08A44CE0 /* Kiosk */ = {
 			isa = PBXGroup;
 			children = (
+				0888E995E184BA16E3C5D93C /* KioskSetupView.swift */,
+				3A9A63CD50231BBF934746C1 /* KioskPreferences.swift */,
 				2E48D222E38A3023D212DCCD /* GuidedAccessHelper.swift */,
 			);
 			path = Kiosk;
@@ -103,6 +113,7 @@
 		118CED29B3703F00DEB40746 /* Panel */ = {
 			isa = PBXGroup;
 			children = (
+				DE87C3A9BF464CFABCFB49DD /* AdminSheet.swift */,
 				D78FAAE787A0A86A698DE077 /* PanelView.swift */,
 			);
 			path = Panel;
@@ -133,6 +144,7 @@
 		5B641D6F9C0FA16BE0FFBCC1 /* OpenAVCPanelTests */ = {
 			isa = PBXGroup;
 			children = (
+				CAD9EF45E1186517DDCC83A1 /* KioskPreferencesTests.swift */,
 				B2F4D8DA1F0D0BB76916CCE6 /* ServerInfoTests.swift */,
 				1FA4369D2676DF5BB6327F8F /* ServerValidatorTests.swift */,
 			);
@@ -258,6 +270,9 @@
 				E9296F482A40A9422FD6BDE1 /* GuidedAccessHelper.swift in Sources */,
 				6F717A108E9ECA9B0E98C940 /* PanelView.swift in Sources */,
 				1B6E90FEC4F5B0D99C65BF0E /* ServerStore.swift in Sources */,
+				7650F85641065DD416676FD7 /* AdminSheet.swift in Sources */,
+				D196947BB6D531BE250FD8FD /* KioskSetupView.swift in Sources */,
+				FBDF3D8C54E2E87F4851925F /* KioskPreferences.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +282,7 @@
 			files = (
 				FC8474AD685987EF0849211A /* ServerInfoTests.swift in Sources */,
 				255CAC0F727FC72A88ABC441 /* ServerValidatorTests.swift in Sources */,
+				3F63F878AEEEA10685499EB8 /* KioskPreferencesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,18 @@ struct ContentView: View {
     @State private var phase: Phase = .checking
     @State private var panelError: String?
 
+    // The admin path behind the corner triple-tap: PIN gate, menu, and the
+    // two things the menu opens. Same flow as Android's MainActivity.
+    @State private var showPinPrompt = false
+    @State private var pinEntry = ""
+    @State private var pinRefused = false
+    @State private var showAdminSheet = false
+    @State private var showPanelSettings = false
+    @State private var fingerprintMessage: String?
+    @State private var lockWasOnAtSettingsOpen = false
+
     private let store = ServerStore()
+    private let kioskPrefs = KioskPreferences()
 
     enum Phase {
         case checking
@@ -53,9 +64,11 @@ struct ContentView: View {
     private func panel(_ server: ServerInfo) -> some View {
         ZStack {
             Color.black.ignoresSafeArea()
-            PanelView(server: server) { message in
-                panelError = message
-            }
+            PanelView(
+                server: server,
+                onNavigationFailure: { message in panelError = message },
+                onAdminHotspot: onAdminHotspot
+            )
             .ignoresSafeArea(.all)
 
             if let panelError {
@@ -69,6 +82,88 @@ struct ContentView: View {
                     }
                 )
             }
+        }
+        .onAppear(perform: applyLockState)
+        .alert("Enter admin PIN", isPresented: $showPinPrompt) {
+            SecureField("PIN", text: $pinEntry)
+                .keyboardType(.numberPad)
+            Button("Unlock") {
+                let accepted = kioskPrefs.checkPin(pinEntry)
+                pinEntry = ""
+                if accepted {
+                    showAdminSheet = true
+                } else {
+                    pinRefused = true
+                }
+            }
+            Button("Cancel", role: .cancel) { pinEntry = "" }
+        }
+        .alert("PIN doesn't match.", isPresented: $pinRefused) {
+            Button("Try again") { showPinPrompt = true }
+            Button("Cancel", role: .cancel) {}
+        }
+        .sheet(isPresented: $showAdminSheet) {
+            AdminSheet(
+                onChangeServer: {
+                    panelError = nil
+                    phase = .discovery
+                },
+                onPanelSettings: {
+                    lockWasOnAtSettingsOpen = kioskPrefs.kioskEnabled
+                    showPanelSettings = true
+                },
+                onViewFingerprint: { showFingerprint(server) }
+            )
+            .presentationDetents([.medium, .large])
+        }
+        .sheet(isPresented: $showPanelSettings, onDismiss: applyLockState) {
+            KioskSetupView()
+        }
+        .alert("Server certificate fingerprint", isPresented: .constant(fingerprintMessage != nil)) {
+            Button("Close") { fingerprintMessage = nil }
+        } message: {
+            Text(fingerprintMessage ?? "")
+        }
+    }
+
+    /// The PIN only stands between the room and the admin menu once the panel
+    /// is set to lock, as on Android: before that, the menu is how an
+    /// integrator gets to the PIN screen in the first place.
+    private func onAdminHotspot() {
+        if kioskPrefs.hasPin() && kioskPrefs.kioskEnabled {
+            pinEntry = ""
+            showPinPrompt = true
+        } else {
+            showAdminSheet = true
+        }
+    }
+
+    /// Runs when the panel appears and whenever Panel settings closes, the way
+    /// Android applies its lock state on resume. The request only takes on an
+    /// iPad an MDM has allowed to lock itself; anywhere else it fails quietly
+    /// and Guided Access is started by hand. A session someone started by hand
+    /// is never ended from here: only a switch that was just turned off is.
+    private func applyLockState() {
+        let wantLocked = kioskPrefs.kioskEnabled
+        let active = GuidedAccessHelper.state == .active
+        if wantLocked && !active {
+            Task { _ = await GuidedAccessHelper.requestSession(enabled: true) }
+        } else if !wantLocked && active && lockWasOnAtSettingsOpen {
+            Task { _ = await GuidedAccessHelper.requestSession(enabled: false) }
+        }
+        lockWasOnAtSettingsOpen = false
+    }
+
+    private func showFingerprint(_ server: ServerInfo) {
+        let pinned = CertTrustStore().lookup(
+            instanceId: server.instanceId.isEmpty ? nil : server.instanceId,
+            hostPort: CertTrustStore.hostPortKey(host: server.host, port: server.port)
+        )
+        if let pinned {
+            fingerprintMessage = "This SHA-256 fingerprint should match the value shown in the Programmer (Settings > Security).\n\nSHA-256:\n"
+                + CertTrustStore.fingerprint(pinned)
+        } else {
+            fingerprintMessage = "No certificate pinned yet. The panel hasn't connected over HTTPS."
         }
     }
 
