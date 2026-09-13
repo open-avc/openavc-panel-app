@@ -58,7 +58,13 @@ The App Store listing for OpenAVC Panel is built from the same folder. App Store
 record: "OpenAVC Panel", Apple ID 6811610982, bundle `com.openavc.panel`, SKU `openavc-panel-ios`.
 Apple requires screenshots for the 13-inch iPad (2064 x 2752 or 2752 x 2064) and, because the app
 also runs on iPhone, for the 6.9-inch iPhone (1320 x 2868 or 2868 x 1320); both sets come from the
-iOS simulator against the demo project above.
+iOS simulator against the demo project above, in `screenshots-ios/`: `ipad13-*.png` (2064 x 2752, iPad Pro
+13-inch simulator) and `iphone69-*.png` (1320 x 2868, iPhone 17 Pro Max simulator), the same five scenes as
+the Android set. The first screen lists four systems the way the Android one does; the simulator cannot see
+a real server's mDNS advert (the advertiser turns multicast loopback off on purpose), so a throwaway
+responder with loopback on advertised the four names for the capture, and idb (`brew install
+facebook/fb/idb-companion`, `pip install fb-idb`) delivered the taps the Simulator app will not take from
+a script.
 
 **Name:** OpenAVC Panel
 
