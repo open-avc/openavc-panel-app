@@ -51,3 +51,69 @@ OpenAVC is free, open source software (MIT) that runs on hardware you already ow
 **Release notes, 0.1.0:**
 
 First release. Finds the OpenAVC systems on your network, pairs by QR code or by address, and runs the space's panel full screen. Connects over HTTPS and remembers the system it trusts.
+
+# App Store listing (iOS)
+
+The App Store listing for OpenAVC Panel is built from the same folder. App Store Connect app
+record: "OpenAVC Panel", Apple ID 6811610982, bundle `com.openavc.panel`, SKU `openavc-panel-ios`.
+Apple requires screenshots for the 13-inch iPad (2064 x 2752 or 2752 x 2064) and, because the app
+also runs on iPhone, for the 6.9-inch iPhone (1320 x 2868 or 2868 x 1320); both sets come from the
+iOS simulator against the demo project above.
+
+**Name:** OpenAVC Panel
+
+**Subtitle (30):** Touch panel for OpenAVC spaces
+
+**Promotional text (170):**
+
+Turn an iPad into the touch panel for any OpenAVC space. Finds your systems, pairs by QR code or address, and runs the space's panel full screen.
+
+**Description:**
+
+OpenAVC Panel turns an iPad or iPhone into the touch panel for a space controlled by OpenAVC, the open control platform for AV systems.
+
+It finds the OpenAVC systems on your network and lists them. Pick one, scan the QR code the Programmer shows, or type an address. The panel the integrator built for that space opens full screen and stays connected.
+
+This app needs an OpenAVC server running on your network. Install the server on Windows, macOS, Linux, a Raspberry Pi or Docker from openavc.com, then connect this app to it.
+
+What it does
+- Finds systems on the network automatically
+- Pairs by QR code or by address
+- Runs the space's panel full screen, in landscape or portrait
+- Reconnects on its own after a network drop
+- Connects over HTTPS and remembers the system it trusts
+- Keeps the screen awake while the panel is showing
+
+Locking the iPad to the panel
+A dedicated panel keeps the iPad on the panel: no Home Screen, no other apps. On iPadOS that is Guided Access (Apple's kiosk mode), started by pressing the power button three times, and the app's Panel settings walk through it. An iPad managed by an MDM can let the app lock itself every time the panel opens, restarts included. The setup guide is at docs.openavc.com/panel-app-dedicated-ios.
+
+About OpenAVC
+OpenAVC is free, open source software (MIT) that runs on hardware you already own: a small PC, a Raspberry Pi, a Docker host, a Mac or a Windows machine. It controls projectors, displays, switchers, DSPs, cameras and lighting through a driver library the community maintains, and its Programmer builds the touch panel this app shows. The cloud platform for managing many systems has a free tier and paid plans; the panel app does not need it. More at openavc.com.
+
+**Keywords (100):** AV,control,touch panel,conference room,classroom,projector,display,kiosk,Crestron,Extron,AMX
+
+**Support URL:** https://docs.openavc.com/panel-app/
+
+**Marketing URL:** https://openavc.com/panel-app
+
+**Privacy policy URL:** https://openavc.com/privacy
+
+**Copyright:** 2026 OpenAVC LLC
+
+**Category:** Utilities (primary), Business (secondary)
+
+**Age rating:** none of the listed content; 4+.
+
+**App privacy:** the app collects no data. It talks only to the OpenAVC server the user pairs it with, on the user's own network.
+
+**Review notes:**
+
+OpenAVC Panel is the touch panel for an OpenAVC control system, which runs on the user's own network. The app has no account, no sign-in and no cloud service of its own: it discovers an OpenAVC server on the local network, or takes its address, and shows the panel that server serves.
+
+To try it without an OpenAVC server, tap the + button on the first screen, choose Enter address, and type the address of any OpenAVC server reachable from the review device. If none is reachable, the first screen, the address form and the QR scanner are the parts of the app that run standalone; the panel itself needs the server. Screenshots 2 and 3 show the panel against a server running the demo project.
+
+Local network access and the camera are requested only for that discovery and for scanning the pairing QR code. The app collects no data.
+
+**Release notes, 0.1.0:**
+
+First release. Finds the OpenAVC systems on your network, pairs by QR code or by address, and runs the space's panel full screen. Connects over HTTPS and remembers the system it trusts.
