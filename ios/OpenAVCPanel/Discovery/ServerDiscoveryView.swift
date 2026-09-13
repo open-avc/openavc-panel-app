@@ -63,13 +63,19 @@ struct ServerDiscoveryView: View {
         if discovery.servers.isEmpty {
             emptyState
         } else {
-            List(discovery.servers) { server in
-                Button {
-                    onConnect(server)
-                } label: {
-                    ServerRow(server: server)
+            List {
+                Section {
+                    ForEach(discovery.servers) { server in
+                        Button {
+                            onConnect(server)
+                        } label: {
+                            ServerRow(server: server)
+                        }
+                        .listRowBackground(Color.white.opacity(0.06))
+                    }
+                } footer: {
+                    adminHint.padding(.top, 12)
                 }
-                .listRowBackground(Color.white.opacity(0.06))
             }
             .scrollContentBackground(.hidden)
         }
@@ -100,6 +106,7 @@ struct ServerDiscoveryView: View {
                     .foregroundStyle(.white.opacity(0.6))
                     .multilineTextAlignment(.center)
             }
+            adminHint
             HStack(spacing: 12) {
                 Button {
                     showScanner = true
@@ -119,6 +126,23 @@ struct ServerDiscoveryView: View {
             .padding(.top, 8)
         }
         .padding(40)
+    }
+
+    /// Told here, on the first screen, because once the panel is up there is
+    /// nothing on it that says how to get back.
+    private var adminHint: some View {
+        HStack(alignment: .top, spacing: 10) {
+            Image(systemName: "hand.tap")
+                .font(.title3)
+                .foregroundStyle(.white.opacity(0.7))
+            Text("Once the panel is showing, tap the top-left corner of the screen three times to open the admin menu: change server, Panel settings, and the dedicated-panel lock.")
+                .font(.callout)
+                .foregroundStyle(.white.opacity(0.7))
+                .multilineTextAlignment(.leading)
+        }
+        .padding(14)
+        .background(Color.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 12))
+        .padding(.top, 12)
     }
 
     private var scannerSheet: some View {

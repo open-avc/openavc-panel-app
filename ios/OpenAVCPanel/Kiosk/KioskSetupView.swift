@@ -80,12 +80,12 @@ struct KioskSetupView: View {
 
     private var stateDetail: String {
         if sessionActive {
-            return "The iPad is locked to this panel. Triple-click the top button and enter the Guided Access passcode to leave it."
+            return "The iPad is locked to this panel. To leave it, press the power button three times, enter the Guided Access passcode, and tap End."
         }
         if lockOnLaunch {
-            return "The panel asks iOS to lock the iPad each time the panel opens. That takes effect on an iPad with an MDM lock profile. On any other iPad, start Guided Access by hand: triple-click the top button."
+            return "The panel asks iPadOS to lock the iPad each time the panel opens. That works on an iPad managed by an MDM. On any other iPad, start Guided Access yourself: with the panel open, press the power button three times and tap Start."
         }
-        return "The panel runs full screen and keeps the screen awake. The Home bar can still swipe out to the Home Screen, and after a restart someone has to open the app again. To lock the iPad to the panel, use Guided Access or an MDM lock profile."
+        return "The panel runs full screen and keeps the screen awake. The Home bar can still swipe out to the Home Screen, and after a restart someone has to open the app again. To lock the iPad to the panel, use Guided Access (Apple's kiosk mode, below), or an MDM if the iPad is managed."
     }
 
     // MARK: Lock switch
@@ -95,7 +95,7 @@ struct KioskSetupView: View {
             Toggle(isOn: $lockOnLaunch) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Lock on launch")
-                    Text("Ask iOS to lock the iPad to this panel whenever the panel opens. Takes effect the next time you return to the panel. Needs an MDM lock profile.")
+                    Text("For iPads managed by an MDM (device management software). Asks iPadOS to lock the iPad to this panel whenever the panel opens. Takes effect the next time you return to the panel.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
@@ -136,29 +136,19 @@ struct KioskSetupView: View {
 
     private var guidedAccessSection: some View {
         Section {
-            step(1, "In Settings, tap Accessibility, then Guided Access, and turn it on.")
-            step(2, "Tap Passcode Settings and set a passcode. Write it down.")
-            step(3, "Come back to this panel and triple-click the top button.")
-            step(4, "Tap Start.")
-            Text("To leave: triple-click the top button, enter the passcode, then tap End. A restart ends the session, so someone has to open the app and start Guided Access again.")
+            Text("Guided Access is Apple's kiosk mode, built into iPadOS: it locks the iPad to one app. You start it by pressing the iPad's power button (the button on the top edge) three times quickly.")
+                .font(.callout)
+            step(1, "In the Settings app, tap Accessibility, then Guided Access, and turn Guided Access on.")
+            step(2, "Tap Passcode Settings, then Set Guided Access Passcode, and choose a passcode. Write it down.")
+            step(3, "On the same Guided Access screen, make sure Accessibility Shortcut is on.")
+            step(4, "Come back to this panel. Press the power button three times quickly, then tap Start in the top right.")
+            Text("To leave: press the power button three times, enter the passcode, and tap End in the top left. A restart ends the session, so someone has to open the app and start Guided Access again.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
-            Button {
-                Task { await lockNow() }
-            } label: {
-                HStack {
-                    Text("Ask iOS to lock now")
-                    if isRequestingLock { Spacer(); ProgressView() }
-                }
-            }
-            .disabled(isRequestingLock || sessionActive)
-            if let lockNowResult {
-                Text(lockNowResult).font(.footnote).foregroundStyle(.secondary)
-            }
         } header: {
-            Text("Guided Access (free)")
+            Text("Guided Access")
         } footer: {
-            Text("Guided Access is built into iPadOS. Anyone with the passcode can end it, and it does not come back on its own after a restart.")
+            Text("Anyone with the passcode can end a session, and it does not come back on its own after a restart.")
         }
     }
 
@@ -169,16 +159,28 @@ struct KioskSetupView: View {
         refresh()
         lockNowResult = locked
             ? "Locked."
-            : "iOS did not lock the panel. Without an MDM lock profile, triple-click the top button and choose Guided Access instead."
+            : "iPadOS refused, so this iPad is not managed by an MDM that allows it. Use Guided Access above instead."
     }
 
     // MARK: MDM
 
     private var managedSection: some View {
         Section {
-            Text("With an MDM lock profile for com.openavc.panel (Apple calls it Autonomous Single App Mode), the lock engages every time the panel opens, restarts included. Turn on Lock on launch above once the profile is on the iPad.")
+            Text("An iPad managed by an MDM (device management software such as Jamf, Mosyle or Apple Configurator) can let this app lock itself. With a lock profile for com.openavc.panel in place, the lock engages every time the panel opens, restarts included. Turn on Lock on launch above once the profile is on the iPad.")
                 .font(.callout)
                 .foregroundStyle(.secondary)
+            Button {
+                Task { await lockNow() }
+            } label: {
+                HStack {
+                    Text("Test whether this iPad lets the app lock itself")
+                    if isRequestingLock { Spacer(); ProgressView() }
+                }
+            }
+            .disabled(isRequestingLock || sessionActive)
+            if let lockNowResult {
+                Text(lockNowResult).font(.footnote).foregroundStyle(.secondary)
+            }
             Link("Open full setup guide on docs.openavc.com", destination: Self.docsUrl)
         } header: {
             Text("Managed iPads (MDM)")
