@@ -12,7 +12,7 @@ Play Console; this folder is the source, so a change to the app's look or wordin
 | `screenshots/03-panel-video-call.png` | Screenshot 3, Video Call selected and mics muted. |
 | `screenshots/04-admin-menu.png` | Screenshot 4, the admin menu. |
 | `screenshots/05-dedicated-panel.png` | Screenshot 5, the Dedicated panel screen. |
-| `demo-executive-boardroom.avc` | The OpenAVC project shown in the screenshots. Variables only, no devices, so it looks the same on any server. Its logo asset is `openavc-logo-wide` from openavc.com, uploaded as `openavc-logo-wide.png`. |
+| `demo-executive-boardroom.avc` | The OpenAVC project shown in the screenshots. Variables only, no devices, so it looks the same on any server. Its logo asset is the light wide logo from openavc.com (`logo-wide-light.png` in the site repo, white text for the panel's dark theme; the dark-text `logo-wide.png` disappears into the background), uploaded as `openavc-logo-wide.png`. |
 
 Screenshots are 1920 x 1080, taken on a Lenovo Tab M11 with its display size set to 1080 x 1920
 for the session (`adb shell wm size 1080x1920`, then `wm size reset`). Play uses 16:9 or 9:16
