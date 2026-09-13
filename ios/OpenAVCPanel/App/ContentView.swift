@@ -115,6 +115,7 @@ struct ContentView: View {
                 onViewFingerprint: { showFingerprint(server) }
             )
             .presentationDetents([.medium, .large])
+            .opaqueSheetBackground()
         }
         .sheet(isPresented: $showPanelSettings, onDismiss: applyLockState) {
             KioskSetupView()
@@ -223,6 +224,20 @@ private struct ReconnectOverlay: View {
                 .tint(.white)
             }
             .padding(32)
+        }
+    }
+}
+
+private extension View {
+    /// A medium-height sheet on iPadOS 26 is translucent glass, and the menu
+    /// is unreadable over a dark panel. The modifier is iOS 16.4; below that
+    /// the sheet is opaque anyway.
+    @ViewBuilder
+    func opaqueSheetBackground() -> some View {
+        if #available(iOS 16.4, *) {
+            self.presentationBackground(Color(.systemGroupedBackground))
+        } else {
+            self
         }
     }
 }
