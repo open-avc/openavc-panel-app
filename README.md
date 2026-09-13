@@ -10,7 +10,7 @@ Native Android and iOS apps that turn a commodity tablet into a dedicated AV tou
 
 <p align="center"><sub><i>The OpenAVC touch panel rendered by the Android app on a wall-mounted tablet. Click to enlarge.</i></sub></p>
 
-> **Status:** Android is released. The signed APK is on the [Releases](https://github.com/open-avc/openavc-panel-app/releases) page, and the Google Play listing is in progress. iOS is not released yet.
+> **Status:** Android is released. The signed APK is on the [Releases](https://github.com/open-avc/openavc-panel-app/releases) page, and the Google Play listing is in progress. iOS is in App Store review.
 >
 > Locking a tablet so it only runs the panel needs the APK rather than the Play Store: Android will not lock a tablet to one app while a Google account is signed in, and the Play Store needs one. The [Android dedicated panel guide](https://docs.openavc.com/panel-app-dedicated-android/) covers both routes.
 
@@ -38,7 +38,7 @@ Minimum: Android 8.0 (API 26).
 
 ### iOS
 
-Not yet released. Coming to the App Store.
+Submitted to the App Store; the listing goes live when Apple approves it. Until then the app builds from `ios/` with Xcode 26 and runs on your own iPad through Xcode: see [docs/ios-setup.md](docs/ios-setup.md).
 
 ### Prefer a landing page?
 
@@ -56,7 +56,7 @@ Everything a user needs lives on the docs site:
 
 ```
 android/   # Android app (Kotlin, Gradle)
-ios/       # iOS app (Swift + SwiftUI) - not yet started
+ios/       # iOS app (Swift + SwiftUI, Xcode project)
 docs/      # Contributor-facing dev setup notes
 ```
 
