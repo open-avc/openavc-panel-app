@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shown at the top of the system list while it is empty: searching first,
+     then "No systems found" once discovery has been quiet for a few seconds. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="24dp"
+    android:paddingBottom="16dp">
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/searching_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:indicatorSize="36dp" />
+
+    <ImageView
+        android:id="@+id/none_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_warning"
+        android:visibility="gone"
+        app:tint="@color/warning_amber" />
+
+    <TextView
+        android:id="@+id/status_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:accessibilityLiveRegion="polite"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:text="@string/discovery_none_title" />
+
+    <TextView
+        android:id="@+id/status_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:maxWidth="560dp"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="15sp"
+        tools:text="@string/discovery_none_detail" />
+
+</LinearLayout>

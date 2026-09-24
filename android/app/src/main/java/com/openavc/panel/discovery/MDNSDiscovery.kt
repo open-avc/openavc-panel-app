@@ -3,6 +3,8 @@ package com.openavc.panel.discovery
 import android.content.Context
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,12 +28,31 @@ class MDNSDiscovery(context: Context) {
     private val _servers = MutableStateFlow<List<ServerInfo>>(emptyList())
     val servers: StateFlow<List<ServerInfo>> = _servers.asStateFlow()
 
+    /**
+     * True once a search has run for [QUIET_PERIOD_MS] without the network
+     * answering at all. A network that separates devices, or a tablet on the
+     * wrong Wi-Fi, looks exactly like a slow network otherwise, so after a
+     * quiet spell the screen stops saying "looking" and says what to try.
+     * Same rule and timing as the iOS app's discovery.
+     */
+    private val _nothingFound = MutableStateFlow(false)
+    val nothingFound: StateFlow<Boolean> = _nothingFound.asStateFlow()
+
     private val resolveQueue = ConcurrentLinkedQueue<NsdServiceInfo>()
     private val resolving = AtomicBoolean(false)
     private var discoveryListener: NsdManager.DiscoveryListener? = null
 
+    private val mainHandler = Handler(Looper.getMainLooper())
+    @Volatile private var sawAnyService = false
+    private val quietCheck = Runnable {
+        if (!sawAnyService) _nothingFound.value = true
+    }
+
     fun start() {
         if (discoveryListener != null) return
+        sawAnyService = false
+        _nothingFound.value = false
+        mainHandler.postDelayed(quietCheck, QUIET_PERIOD_MS)
         val listener = object : NsdManager.DiscoveryListener {
             override fun onDiscoveryStarted(regType: String) {
                 Log.d(TAG, "discovery started: $regType")
@@ -51,6 +72,8 @@ class MDNSDiscovery(context: Context) {
 
             override fun onServiceFound(service: NsdServiceInfo) {
                 Log.d(TAG, "found: ${service.serviceName}")
+                sawAnyService = true
+                _nothingFound.value = false
                 resolveQueue.offer(service)
                 pumpResolveQueue()
             }
@@ -65,6 +88,7 @@ class MDNSDiscovery(context: Context) {
     }
 
     fun stop() {
+        mainHandler.removeCallbacks(quietCheck)
         discoveryListener?.let {
             try {
                 nsdManager.stopServiceDiscovery(it)
@@ -132,6 +156,7 @@ class MDNSDiscovery(context: Context) {
 
     companion object {
         const val SERVICE_TYPE = "_openavc._tcp."
+        const val QUIET_PERIOD_MS = 6_000L
         private const val TAG = "MDNSDiscovery"
     }
 }

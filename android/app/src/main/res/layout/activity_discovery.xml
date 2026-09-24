@@ -59,18 +59,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/wifi_settings_button" />
 
-    <TextView
-        android:id="@+id/empty_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/discovery_empty"
-        android:textColor="?attr/colorOnSurfaceVariant"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@id/server_list"
-        app:layout_constraintBottom_toBottomOf="@id/server_list"
-        app:layout_constraintStart_toStartOf="@id/server_list"
-        app:layout_constraintEnd_toEndOf="@id/server_list" />
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/wifi_settings_button"
         style="@style/Widget.Material3.Button.TextButton"

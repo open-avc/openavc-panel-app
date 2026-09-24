@@ -13,14 +13,25 @@
 
     <!-- Discovery -->
     <string name="discovery_title">Find your OpenAVC</string>
-    <string name="discovery_subtitle">OpenAVC Panel is the touch panel for an OpenAVC system. It needs the OpenAVC server running on your network: install the server on Windows, macOS, Linux, a Raspberry Pi or Docker from openavc.com, then come back here. Pick a system from the list, scan the QR from the Programmer, or enter an address directly. Once the panel is showing, tap the top-left corner of the screen three times to open the admin menu: change server, Panel settings, and the dedicated-panel lock.</string>
+    <string name="discovery_subtitle">Pick a system from the list, scan the QR code from the Programmer, or enter an address directly.</string>
     <string name="discovery_section_network">Systems on your network</string>
-    <string name="discovery_empty">Searching the network…</string>
+    <string name="discovery_searching_title">Looking for systems…</string>
+    <string name="discovery_searching_detail">Make sure this tablet is on the same network as your OpenAVC system.</string>
+    <string name="discovery_none_title">No systems found</string>
+    <string name="discovery_none_detail">If this tablet is on a guest or different Wi-Fi network, switch networks in Wi-Fi settings. Some networks stop devices from finding each other: scan the QR code from the Programmer or enter the address instead.</string>
+    <string name="discovery_note_server">OpenAVC Panel is the touch panel for an OpenAVC system. It needs the OpenAVC server running on your network. Install the server on Windows, macOS, Linux, a Raspberry Pi or Docker from openavc.com, then come back here to connect.</string>
+    <string name="discovery_note_admin">Once the panel is showing, tap the top-left corner of the screen three times to open the admin menu: change server, Panel settings, and the dedicated-panel lock.</string>
     <string name="discovery_scan_qr">Scan QR code</string>
     <string name="discovery_enter_manually">Enter manually</string>
     <string name="discovery_validating">Connecting…</string>
     <string name="discovery_unreachable">Couldn\'t reach that address.</string>
-    <string name="discovery_invalid_url">That doesn\'t look like an OpenAVC URL.</string>
+    <string name="discovery_server_https">HTTPS</string>
+
+    <!-- A scanned code that could not be used -->
+    <string name="qr_failed_title">Couldn\'t use that code</string>
+    <string name="qr_failed_invalid">That doesn\'t look like an OpenAVC pairing code.</string>
+    <string name="qr_failed_unreachable">Found %1$s:%2$d in the code, but no OpenAVC system answered there.</string>
+    <string name="ok">OK</string>
 
     <!-- QR scanner -->
     <string name="qr_instructions">Point the camera at the QR code in the Programmer dashboard</string>
@@ -32,6 +43,9 @@
     <string name="manual_port_hint">Port</string>
     <string name="manual_connect">Connect</string>
     <string name="manual_use_https">Use HTTPS</string>
+    <string name="manual_help">The address of the computer running OpenAVC. You\'ll find it on the server\'s setup screen, or in the Programmer under Panel Access.</string>
+    <string name="manual_port_invalid">That port number isn\'t valid.</string>
+    <string name="manual_unreachable">No OpenAVC system answered at %1$s:%2$d. Check the address and that the server is running.</string>
     <string name="default_port">8080</string>
     <string name="default_port_https">8443</string>
 

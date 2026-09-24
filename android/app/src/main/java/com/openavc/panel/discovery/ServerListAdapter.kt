@@ -1,6 +1,7 @@
 package com.openavc.panel.discovery
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -33,6 +34,8 @@ class ServerListAdapter(
             }
         }
         holder.binding.subtitle.text = subtitle
+        holder.binding.httpsIcon.visibility =
+            if (item.scheme == "https") View.VISIBLE else View.GONE
         holder.binding.root.setOnClickListener { onClick(item) }
     }
 
