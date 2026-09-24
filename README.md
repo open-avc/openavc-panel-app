@@ -10,9 +10,7 @@ Native Android and iOS apps that turn a commodity tablet into a dedicated AV tou
 
 <p align="center"><sub><i>The OpenAVC touch panel rendered by the Android app on a wall-mounted tablet. Click to enlarge.</i></sub></p>
 
-> **Status:** Android is released. The signed APK is on the [Releases](https://github.com/open-avc/openavc-panel-app/releases) page, and the Google Play listing is in progress. iOS is in App Store review.
->
-> Locking a tablet so it only runs the panel needs the APK rather than the Play Store: Android will not lock a tablet to one app while a Google account is signed in, and the Play Store needs one. The [Android dedicated panel guide](https://docs.openavc.com/panel-app-dedicated-android/) covers both routes.
+Get it on [Google Play](https://play.google.com/store/apps/details?id=com.openavc.panel) or the [App Store](https://apps.apple.com/app/id6811610982). For a locked-down Android panel, use the signed APK from [Releases](https://github.com/open-avc/openavc-panel-app/releases) (see [Install](#android)).
 
 ## What These Apps Do
 
@@ -30,15 +28,19 @@ The apps are thin wrappers around the existing web panel. All control logic, UI 
 
 ### Android
 
+Install from [Google Play](https://play.google.com/store/apps/details?id=com.openavc.panel).
+
+To lock a tablet so it only runs the panel, install the signed APK instead. Android will not lock a tablet to one app while a Google account is signed in, and Google Play needs one. The [Android dedicated panel guide](https://docs.openavc.com/panel-app-dedicated-android/) covers both routes.
+
 1. Download the latest signed APK from [Releases](https://github.com/open-avc/openavc-panel-app/releases).
 2. Install via `adb install OpenAVCPanel-<version>.apk`, or copy the file to the tablet and open it in Files (you will need to allow "Install unknown apps" for your file manager or browser the first time).
-3. Android shows a warning about unknown sources. That is expected for apps not yet on the Play Store. Once we ship to Google Play, the warning will be gone for Play Store installs.
+3. Android shows a warning about unknown sources. That is expected for an app installed outside Google Play.
 
 Minimum: Android 8.0 (API 26).
 
 ### iOS
 
-Submitted to the App Store; the listing goes live when Apple approves it. Until then the app builds from `ios/` with Xcode 26 and runs on your own iPad through Xcode: see [docs/ios-setup.md](docs/ios-setup.md).
+Install from the [App Store](https://apps.apple.com/app/id6811610982). Runs on iPad and iPhone, iOS 16 or newer.
 
 ### Prefer a landing page?
 
@@ -73,7 +75,7 @@ Each platform is built natively because the interesting behavior (kiosk lockdown
 Platform-specific setup for contributors:
 
 - [`docs/android-setup.md`](docs/android-setup.md) - Android Studio, build, signing
-- `docs/ios-setup.md` - Xcode, provisioning, TestFlight (coming with the iOS build)
+- [`docs/ios-setup.md`](docs/ios-setup.md) - Xcode, build, running on your own iPad
 
 ## Security
 
