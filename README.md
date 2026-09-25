@@ -17,12 +17,12 @@ Get it on [Google Play](https://play.google.com/store/apps/details?id=com.openav
 OpenAVC's web panel is already touch-optimized and runs great in any mobile browser. These apps exist for the things a browser cannot do on a wall-mounted tablet:
 
 - **Auto-discovery.** Find the OpenAVC server on the network automatically via mDNS. No typing IP addresses.
-- **QR pairing.** Scan the QR code shown in the Programmer IDE to connect instantly.
+- **QR pairing.** Scan the QR code shown in the Programmer IDE to connect. A new tablet then waits until it is approved in the Programmer, once; approved tablets stay approved.
 - **Dedicated panel mode.** Lock the tablet to the panel. Users cannot exit to the home screen, open other apps, or pull down the notification shade. (Android's developer docs call this "Lock Task Mode" or "kiosk mode"; we use the AV term.)
 - **Boot to panel.** The panel launches automatically when the tablet powers on.
 - **Keep screen on.** The display stays awake. No tapping through a lock screen to adjust the volume.
 
-The apps are thin wrappers around the existing web panel. All control logic, UI design, and device communication happens on the OpenAVC server. If the panel UI works in your browser, it works here.
+The apps are thin wrappers around the existing web panel. All control logic, UI design, and device communication happens on the OpenAVC server. If the panel UI works in your browser, it works here, and a tablet is approved the same way a browser is.
 
 ## Install
 
@@ -78,6 +78,8 @@ Platform-specific setup for contributors:
 - [`docs/ios-setup.md`](docs/ios-setup.md) - Xcode, build, running on your own iPad
 
 ## Security
+
+A panel is approved once. With the OpenAVC system's Panel access set to Approved panels only (the default), a new tablet shows a code and waits until it is approved in the Programmer, or with the admin password typed on the tablet. Approved tablets stay approved until revoked. The app has nothing to configure for this; the system's own screen and OpenAVC Cloud's Remote Panel need no approval.
 
 The signed APK attached to each Release page includes a SHA-256 checksum in the release notes. Verify it before installing on production tablets:
 
