@@ -4,44 +4,38 @@ How to build and run the OpenAVC Panel Android app from source.
 
 ## Prerequisites
 
-- Android Studio Ladybug (2024.2) or newer.
-- Android SDK Platform 35 and Platform 26 installed via the SDK Manager.
+- A current Android Studio. The project uses Android Gradle Plugin 8.13 (`gradle/libs.versions.toml`); a Studio release too old for it shows an error when it syncs the project.
+- Android SDK Platform 36, installed via the SDK Manager.
 - JDK 17 (bundled with Android Studio).
 
 ## First-time setup
 
 1. Open Android Studio and choose **Open**, then select the `android/` directory inside `openavc-panel-app`.
-2. Android Studio will prompt to trust the project and to sync Gradle. Accept. The first sync downloads the Gradle distribution declared in `gradle/wrapper/gradle-wrapper.properties` (Gradle 8.9) and populates the wrapper JAR.
+2. Android Studio will prompt to trust the project and to sync Gradle. Accept. The first sync downloads the Gradle version named in `gradle/wrapper/gradle-wrapper.properties`.
 3. If Android Studio prompts to install the Android Gradle Plugin, accept.
 4. When sync completes, the tree view should show a single `app` module with `src/main/java/com/openavc/panel/`.
 
-## Generating the Gradle wrapper JAR from the command line
-
-The wrapper JAR (`gradle/wrapper/gradle-wrapper.jar`) is a binary that must exist for `./gradlew` to run. Android Studio generates it during sync. To generate it manually:
-
-```bash
-cd android
-gradle wrapper --gradle-version 8.9
-```
-
-This requires a system Gradle install (`brew install gradle`, `choco install gradle`, etc.). Once generated, `./gradlew` works from the `android/` directory.
+The Gradle wrapper (`gradlew` and `gradle/wrapper/gradle-wrapper.jar`) is committed, so the command line needs no separate Gradle install.
 
 ## Building
 
 From Android Studio: **Build > Make Project**, or run the `app` configuration.
 
-From the command line (after the wrapper JAR exists):
+From the command line:
 
 ```bash
 cd android
 ./gradlew assembleDebug            # Debug APK -> app/build/outputs/apk/debug/
-./gradlew installDebug             # Install to connected device
+./gradlew testDebugUnitTest        # Unit tests
 ./gradlew lint                     # Lint check
+./gradlew installDebug             # Install to connected device
 ```
+
+CI runs `assembleDebug`, `testDebugUnitTest` and `lintDebug` on every push and pull request. A lint error fails the build; warnings are reported and do not.
 
 ## Running on a device
 
-Enable Developer Options and USB debugging on the tablet, connect via USB, and run from Android Studio. The scaffold build is a placeholder screen; the WebView panel arrives in Phase 1C.
+Enable Developer Options and USB debugging on the tablet, connect via USB, and run from Android Studio. The debug build installs as its own app (`com.openavc.panel.debug`), so it sits beside a released copy instead of replacing it.
 
 ## Project layout
 
@@ -57,16 +51,24 @@ android/
 └── app/
     ├── build.gradle.kts           # App module: SDK, deps, signing
     ├── proguard-rules.pro
-    └── src/main/
-        ├── AndroidManifest.xml
-        ├── java/com/openavc/panel/
-        │   └── MainActivity.kt    # Stub; Phase 1C adds WebView
-        └── res/
-            ├── drawable/          # Launcher icon foreground/background
-            ├── layout/            # activity_main.xml
-            ├── mipmap-anydpi-v26/ # Adaptive launcher icons
-            ├── values/            # strings, colors, themes
-            └── xml/               # backup + data-extraction rules
+    └── src/
+        ├── main/
+        │   ├── AndroidManifest.xml
+        │   ├── java/com/openavc/panel/
+        │   │   ├── MainActivity.kt              # Full-screen WebView that shows the panel
+        │   │   ├── ServerDiscoveryActivity.kt   # "Find your OpenAVC" list
+        │   │   ├── KioskSetupActivity.kt        # Dedicated panel settings: kiosk on/off, PIN
+        │   │   ├── discovery/     # mDNS discovery, QR pairing, server checks, certificate pinning
+        │   │   ├── kiosk/         # Dedicated panel mode: device owner, lock task, start on boot
+        │   │   ├── prefs/         # The last server connected to
+        │   │   └── util/          # Immersive full-screen helper
+        │   └── res/
+        │       ├── drawable/          # Icons
+        │       ├── layout/            # Screens, dialogs and list rows
+        │       ├── mipmap-*/          # Launcher icons
+        │       ├── values/            # strings, colors, themes
+        │       └── xml/               # backup, data-extraction and device-admin rules
+        └── test/java/com/openavc/panel/   # Unit tests (discovery/, kiosk/)
 ```
 
 ## Dependency policy
@@ -76,5 +78,5 @@ All runtime dependencies are MIT or Apache-2.0 licensed. When adding a new libra
 ## Minimum/target SDK
 
 - `minSdk = 26` (Android 8.0 Oreo). Covers ~97% of active devices as of 2026 and gives us adaptive launcher icons and modern WebView APIs.
-- `targetSdk = 35` (Android 15). Required by current AndroidX libraries and by Play Store for new submissions after Aug 2025.
-- `compileSdk = 35`.
+- `targetSdk = 36` (Android 16). Google Play raises the minimum target level for new apps and updates each year; raise this with it.
+- `compileSdk = 36`.

@@ -107,7 +107,7 @@ class QRScannerActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
-    @androidx.camera.core.ExperimentalGetImage
+    @androidx.annotation.OptIn(androidx.camera.core.ExperimentalGetImage::class)
     private fun analyze(proxy: ImageProxy) {
         if (returned.get()) {
             proxy.close()
