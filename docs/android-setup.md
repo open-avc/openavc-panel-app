@@ -73,7 +73,7 @@ android/
 
 ## Dependency policy
 
-All runtime dependencies are MIT or Apache-2.0 licensed. When adding a new library, check the license before committing. Version bumps go through `gradle/libs.versions.toml`.
+Runtime dependencies are MIT or Apache-2.0 licensed, with one exception: Google's ML Kit (`com.google.mlkit:barcode-scanning`), which reads pairing QR codes, is under the [ML Kit Terms of Service](https://developers.google.com/ml-kit/terms). ML Kit sends Google diagnostic and usage data, listed in its [data disclosure](https://developers.google.com/ml-kit/android-data-disclosure), and the app's Google Play Data safety answers declare it. When adding a new library, check the license before committing, and check whether it sends anything off the tablet, since that changes the Data safety answers too. Version bumps go through `gradle/libs.versions.toml`.
 
 ## Minimum/target SDK
 
