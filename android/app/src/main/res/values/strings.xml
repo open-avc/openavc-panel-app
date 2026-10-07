@@ -64,7 +64,7 @@
     <string name="admin_unlock_title">Enter admin PIN</string>
     <string name="admin_unlock_submit">Unlock</string>
     <string name="admin_fingerprint_title">Server certificate fingerprint</string>
-    <string name="admin_fingerprint_none">No certificate pinned yet — the panel hasn\'t connected over HTTPS.</string>
+    <string name="admin_fingerprint_none">No certificate pinned yet. The panel hasn\'t connected over HTTPS.</string>
     <string name="admin_fingerprint_hint">This SHA-256 fingerprint should match the value shown in the Programmer (Settings → Security).</string>
     <string name="admin_fingerprint_dismiss">Close</string>
 
@@ -111,7 +111,7 @@
       from, but a Play install proves an account was there - so that case gets
       told plainly instead of being left to work it out.
     -->
-    <string name="kiosk_provisioning_detail_sideloaded">To lock the tablet completely, run this from a computer with the tablet connected over USB and Developer Options + USB debugging enabled. The tablet must have no Google account signed in — sign out of every account first, or factory reset and skip sign-in.</string>
+    <string name="kiosk_provisioning_detail_sideloaded">To lock the tablet completely, run this from a computer with the tablet connected over USB and Developer Options + USB debugging enabled. The tablet must have no Google account signed in. Sign out of every account first, or factory reset and skip sign-in.</string>
     <string name="kiosk_provisioning_detail_play">This copy came from Google Play, so this tablet has a Google account signed in. Android will not lock a tablet to one app while any account exists, so the command below will refuse to run as things stand.</string>
     <string name="kiosk_provisioning_detail_unknown">To lock the tablet completely, run this from a computer with the tablet connected over USB and Developer Options + USB debugging enabled. The tablet must have no Google account signed in. If this tablet was set up with a Google account, factory reset it and skip sign-in first.</string>
 
