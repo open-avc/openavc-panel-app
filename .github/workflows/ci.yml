@@ -1,9 +1,9 @@
 # Build both apps and run their tests on every push and pull request.
 #
 # The release workflow only runs on a tag, so without this nothing compiled
-# either app between releases: a broken build was found halfway through
-# cutting one, and the unit tests on both platforms ran only when somebody
-# remembered to run them locally.
+# either app between releases: a broken build would only have shown up
+# while cutting one, and the unit tests on both platforms ran only when
+# somebody remembered to run them locally.
 name: CI
 
 on:
