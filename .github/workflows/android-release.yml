@@ -10,7 +10,25 @@ permissions:
   contents: write
 
 jobs:
+  security:
+    name: Verify CodeQL
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read
+      security-events: read
+    steps:
+      - uses: open-avc/openavc/.github/actions/codeql-gate@8bc73cbaf435f284e8854d7442dd897a03485a3e
+        with:
+          sha: ${{ github.sha }}
+          branch: main
+          languages: actions,python,java-kotlin,swift
+        env:
+          GH_TOKEN: ${{ github.token }}
+
   build:
+    needs: security
     name: Build signed APK
     runs-on: ubuntu-latest
     steps:
@@ -95,9 +113,10 @@ jobs:
             Android 8.0 (API 26) or newer. An OpenAVC server reachable on the same network.
 
   bundle:
+    needs: security
     name: Build signed AAB for Play
     runs-on: ubuntu-latest
-    # No `needs:` on purpose. This job is independent of the APK job so a
+    # Independent of the APK build after security passes, so a
     # bundle failure cannot take the GitHub Release down with it -- the APK
     # is what sideload and Android Enterprise provisioning depend on, and it
     # has to publish whether or not Play gets a bundle this time.
