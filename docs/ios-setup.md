@@ -20,6 +20,12 @@ xcodebuild test  -project OpenAVCPanel.xcodeproj -scheme OpenAVCPanel \
   -destination 'platform=iOS Simulator,name=iPad Air 11-inch (M4)'
 ```
 
+If Xcode lists no usable simulator destination, install its iOS runtime with
+`xcodebuild -downloadPlatform iOS`, then create an iPad in Xcode's Devices and
+Simulators window. CI does the same explicitly, creating an iPad and passing
+its identifier to the test command, so it does not depend on the runner image
+having a pre-created device.
+
 The tests mirror the Android unit tests case for case, so the two apps keep agreeing on what a server is and how a pairing code is read.
 
 ## Running on a device
