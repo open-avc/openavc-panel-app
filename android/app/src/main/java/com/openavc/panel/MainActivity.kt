@@ -252,6 +252,7 @@ class MainActivity : AppCompatActivity() {
                 errorResponse: WebResourceResponse
             ) {
                 if (!request.isForMainFrame) return
+                if (!ServerAnswer.coveredByOverlay(errorResponse.statusCode)) return
                 showError("HTTP ${errorResponse.statusCode}")
             }
 
