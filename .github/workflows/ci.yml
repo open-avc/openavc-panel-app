@@ -72,12 +72,22 @@ jobs:
 
       # Runner images can carry Xcode without its simulator runtime or devices.
       # Install the matching platform and create our own destination explicitly.
+      # On a freshly started runner the simulator service is sometimes not up
+      # yet and the download stops with "Unable to connect to simulator", so
+      # the setup is tried up to three times before the job fails.
       - name: Prepare iPad simulator
         id: simulator
         run: |
-          xcodebuild -downloadPlatform iOS
-          device=$(xcrun simctl create "OpenAVC CI iPad" "iPad Air 11-inch (M4)")
-          echo "device=$device" >> "$GITHUB_OUTPUT"
+          for attempt in 1 2 3; do
+            if xcodebuild -downloadPlatform iOS \
+              && device=$(xcrun simctl create "OpenAVC CI iPad" "iPad Air 11-inch (M4)"); then
+              echo "device=$device" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            echo "Simulator setup failed on attempt $attempt"
+            sleep 30
+          done
+          exit 1
 
       # No signing: simulator builds do not need it.
       - name: Build and test
